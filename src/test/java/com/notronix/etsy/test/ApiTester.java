@@ -8,7 +8,7 @@ public class ApiTester
 {
     private Object test(EtsyDataService eds, Credentials clientCreds, Credentials accessCreds)
             throws EtsyAPIException {
-        return eds.findAllCountry(clientCreds);
+        return eds.findSuggestedStyles(clientCreds);
     }
 
     /**

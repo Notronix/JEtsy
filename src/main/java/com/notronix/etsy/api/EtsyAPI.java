@@ -36,6 +36,9 @@ public interface EtsyAPI
     List<? extends Country> findAllCountry(Credentials clientCreds)
             throws EtsyAPIException;
 
+    List<? extends Style> findSuggestedStyles(Credentials clientCreds)
+            throws EtsyAPIException;
+
     User getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException;
 

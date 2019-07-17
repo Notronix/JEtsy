@@ -110,6 +110,11 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public List<? extends Style> findSuggestedStyles(Credentials clientCreds) throws EtsyAPIException {
+        return execute(new FindSuggestedStylesMethod().withClientCredentials(clientCreds));
+    }
+
+    @Override
     public EtsyUser getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetUserMethod()
