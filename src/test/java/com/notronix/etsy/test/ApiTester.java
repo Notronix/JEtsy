@@ -4,11 +4,16 @@ import com.notronix.etsy.api.EtsyAPIException;
 import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.EtsyDataService;
 
+import java.io.File;
+
 public class ApiTester
 {
     private Object test(EtsyDataService eds, Credentials clientCreds, Credentials accessCreds)
             throws EtsyAPIException {
-        return eds.findSuggestedStyles(clientCreds);
+        Long listingId = -1L; // change this to the listing you want to add the image to
+        File image = null; // add code here to get your image as a java.io.File instance.
+
+        return eds.uploadListingImage(clientCreds, accessCreds, listingId, image);
     }
 
     /**

@@ -1,7 +1,7 @@
 package com.notronix.etsy.impl.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.notronix.etsy.api.model.Shop;
+import com.notronix.etsy.api.model.*;
 
 import java.util.List;
 
@@ -114,6 +114,17 @@ public class EtsyShop implements Shop
 
     @SerializedName(value = "include_dispute_form_link")
     private Boolean includeDisputeFormLink;
+
+    private EtsyUser User;
+    private EtsyShopAbout About;
+    private List<EtsyShopSection> Sections;
+    private List<EtsyListing> Listings;
+    private List<EtsyReceipt> Receipts;
+    private List<EtsyTransaction> Transactions;
+    private List<EtsyShopTranslation> Translations;
+    private EtsyStructuredPolicies StructuredPolicies;
+    private EtsySellerDetails SellerDetails;
+    private List<EtsyFrequentlyAskedQuestion> FAQ;
 
     @Override
     public Long getShopId() {
@@ -473,5 +484,95 @@ public class EtsyShop implements Shop
 
     public void setIncludeDisputeFormLink(Boolean includeDisputeFormLink) {
         this.includeDisputeFormLink = includeDisputeFormLink;
+    }
+
+    @Override
+    public EtsyUser getUser() {
+        return User;
+    }
+
+    public void setUser(EtsyUser user) {
+        User = user;
+    }
+
+    @Override
+    public EtsyShopAbout getAbout() {
+        return About;
+    }
+
+    public void setAbout(EtsyShopAbout about) {
+        About = about;
+    }
+
+    @Override
+    public List<EtsyShopSection> getSections() {
+        return Sections;
+    }
+
+    public void setSections(List<EtsyShopSection> sections) {
+        Sections = sections;
+    }
+
+    @Override
+    public List<EtsyListing> getListings() {
+        return Listings;
+    }
+
+    public void setListings(List<EtsyListing> listings) {
+        Listings = listings;
+    }
+
+    @Override
+    public List<EtsyReceipt> getReceipts() {
+        return Receipts;
+    }
+
+    public void setReceipts(List<EtsyReceipt> receipts) {
+        Receipts = receipts;
+    }
+
+    @Override
+    public List<EtsyTransaction> getTransactions() {
+        return Transactions;
+    }
+
+    public void setTransactions(List<EtsyTransaction> transactions) {
+        Transactions = transactions;
+    }
+
+    @Override
+    public List<EtsyShopTranslation> getTranslations() {
+        return Translations;
+    }
+
+    public void setTranslations(List<EtsyShopTranslation> translations) {
+        Translations = translations;
+    }
+
+    @Override
+    public EtsyStructuredPolicies getStructuredPolicies() {
+        return StructuredPolicies;
+    }
+
+    public void setStructuredPolicies(EtsyStructuredPolicies structuredPolicies) {
+        StructuredPolicies = structuredPolicies;
+    }
+
+    @Override
+    public EtsySellerDetails getSellerDetails() {
+        return SellerDetails;
+    }
+
+    public void setSellerDetails(EtsySellerDetails sellerDetails) {
+        SellerDetails = sellerDetails;
+    }
+
+    @Override
+    public List<EtsyFrequentlyAskedQuestion> getFAQ() {
+        return FAQ;
+    }
+
+    public void setFAQ(List<EtsyFrequentlyAskedQuestion> FAQ) {
+        this.FAQ = FAQ;
     }
 }

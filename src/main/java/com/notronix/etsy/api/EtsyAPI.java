@@ -45,6 +45,10 @@ public interface EtsyAPI
     String getAvatarImgSrc(Credentials clientCreds, Credentials accessCreds, String userId)
             throws EtsyAPIException;
 
+    Response<? extends List<? extends Shop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds,
+                                                              String userId, ShopAssociations... associations)
+            throws EtsyAPIException;
+
     Response<? extends List<? extends ShippingTemplate>> findAllShippingTemplates(Credentials clientCreds, Credentials accessCreds)
             throws EtsyAPIException;
 

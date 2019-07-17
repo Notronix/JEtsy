@@ -44,4 +44,15 @@ public interface Shop
     String getPolicyPrivacy();
     Boolean getUseNewInventoryEndpoints();
     Boolean getIncludeDisputeFormLink();
+
+    User getUser();
+    ShopAbout getAbout();
+    List<? extends ShopSection> getSections();
+    List<? extends Listing> getListings();
+    List<? extends Receipt> getReceipts();
+    List<? extends Transaction> getTransactions();
+    List<? extends ShopTranslation> getTranslations();
+    StructuredPolicies getStructuredPolicies();
+    SellerDetails getSellerDetails();
+    List<? extends FrequentlyAskedQuestion> getFAQ();
 }

@@ -118,10 +118,10 @@ public class EtsyDataService implements EtsyAPI
     public EtsyUser getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetUserMethod()
-                               .withUserId(userId)
-                               .withAssociations(associations)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withUserId(userId)
+                .withAssociations(associations)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
@@ -129,6 +129,17 @@ public class EtsyDataService implements EtsyAPI
             throws EtsyAPIException {
         return execute(new GetAvatarImgSrcMethod()
                 .withUserId(userId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public EtsyResponse<List<EtsyShop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds, String userId,
+                                                         ShopAssociations... associations)
+            throws EtsyAPIException {
+        return execute(new FindAllUserShopsMethod()
+                .withUserId(userId)
+                .withAssociations(associations)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
@@ -154,58 +165,58 @@ public class EtsyDataService implements EtsyAPI
     public EtsyListing getListing(Credentials clientCreds, Credentials accessCreds, Long listingId,
                                   ListingAssociations... associations) throws EtsyAPIException {
         return execute(new GetListingMethod()
-                               .withListingId(requireNonNull(listingId))
-                               .withAssociations(associations)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withListingId(requireNonNull(listingId))
+                .withAssociations(associations)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
     public EtsyListingInventory getInventory(Credentials clientCreds, Credentials accessCreds, Long listingId,
                                              Boolean writeMissingInventory) throws EtsyAPIException {
         return execute(new GetInventoryMethod()
-                               .withListingId(requireNonNull(listingId))
-                               .withWriteMissingInventory(writeMissingInventory)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withListingId(requireNonNull(listingId))
+                .withWriteMissingInventory(writeMissingInventory)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
     public EtsyListingInventory updateInventory(Credentials clientCreds, Credentials accessCreds, Long listingId,
                                                 ListingInventory inventory) throws EtsyAPIException {
         return execute(new UpdateInventoryMethod()
-                               .withListingId(listingId)
-                               .withInventory(inventory)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withListingId(listingId)
+                .withInventory(inventory)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
     public EtsyListing createListing(Credentials clientCreds, Credentials accessCreds, Listing listing) throws EtsyAPIException {
         return execute(new CreateListingMethod()
-                               .withListing(requireNonNull(listing))
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withListing(requireNonNull(listing))
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
     public EtsyResponse<EtsyListing> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
             throws EtsyAPIException {
         return execute(new FindAllListingActiveMethod()
-                               .withLimit(limit)
-                               .withOffset(offset)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withLimit(limit)
+                .withOffset(offset)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
     public EtsyListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image)
             throws EtsyAPIException {
         return execute(new UploadListingImageMethod()
-                               .withListingId(listingId)
-                               .withImage(image)
-                               .withClientCredentials(clientCreds)
-                               .withAccessCredentials(accessCreds));
+                .withListingId(listingId)
+                .withImage(image)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     private <T> T execute(EtsyMethod<T> method) throws EtsyAPIException {
@@ -229,7 +240,7 @@ public class EtsyDataService implements EtsyAPI
 
             if (requestFailed(statusCode)) {
                 throw new EtsyAPIException("Etsy API call failed" + ". Code: " + statusCode + ", Reason: " + reason
-                                                       + ", Details: " + payload);
+                        + ", Details: " + payload);
             }
 
             return method.getResponse(getReceivingGSON(), payload);
