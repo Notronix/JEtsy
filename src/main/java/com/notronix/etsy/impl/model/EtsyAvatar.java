@@ -1,0 +1,128 @@
+package com.notronix.etsy.impl.model;
+
+import com.google.gson.annotations.SerializedName;
+import com.notronix.etsy.api.model.Avatar;
+
+public class EtsyAvatar implements Avatar
+{
+    @SerializedName(value = "avatar_id")
+    private Long avatarId;
+
+    @SerializedName(value = "hex_code")
+    private String hexCode;
+
+    private Integer red;
+    private Integer green;
+    private Integer blue;
+    private Integer hue;
+    private Integer saturation;
+    private Integer brightness;
+
+    @SerializedName(value = "is_black_and_white")
+    private Boolean isBlackAndWhite;
+
+    @SerializedName(value = "creation_tsz")
+    private Float creationTsz;
+
+    @SerializedName(value = "user_id")
+    private Long userId;
+
+    @Override
+    public Long getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(Long avatarId) {
+        this.avatarId = avatarId;
+    }
+
+    @Override
+    public String getHexCode() {
+        return hexCode;
+    }
+
+    public void setHexCode(String hexCode) {
+        this.hexCode = hexCode;
+    }
+
+    @Override
+    public Integer getRed() {
+        return red;
+    }
+
+    public void setRed(Integer red) {
+        this.red = red;
+    }
+
+    @Override
+    public Integer getGreen() {
+        return green;
+    }
+
+    public void setGreen(Integer green) {
+        this.green = green;
+    }
+
+    @Override
+    public Integer getBlue() {
+        return blue;
+    }
+
+    public void setBlue(Integer blue) {
+        this.blue = blue;
+    }
+
+    @Override
+    public Integer getHue() {
+        return hue;
+    }
+
+    public void setHue(Integer hue) {
+        this.hue = hue;
+    }
+
+    @Override
+    public Integer getSaturation() {
+        return saturation;
+    }
+
+    public void setSaturation(Integer saturation) {
+        this.saturation = saturation;
+    }
+
+    @Override
+    public Integer getBrightness() {
+        return brightness;
+    }
+
+    public void setBrightness(Integer brightness) {
+        this.brightness = brightness;
+    }
+
+    @Override
+    public Boolean getBlackAndWhite() {
+        return isBlackAndWhite;
+    }
+
+    public void setBlackAndWhite(Boolean blackAndWhite) {
+        isBlackAndWhite = blackAndWhite;
+    }
+
+    @Override
+    public Float getCreationTsz() {
+        return creationTsz;
+    }
+
+    public void setCreationTsz(Float creationTsz) {
+        this.creationTsz = creationTsz;
+    }
+
+    @Override
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+}

@@ -10,10 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.notronix.etsy.api.EtsyAPI;
 import com.notronix.etsy.api.EtsyAPIException;
 import com.notronix.etsy.api.authentication.Credentials;
-import com.notronix.etsy.api.model.Listing;
-import com.notronix.etsy.api.model.ListingAssociations;
-import com.notronix.etsy.api.model.ListingInventory;
-import com.notronix.etsy.api.model.UserAssociations;
+import com.notronix.etsy.api.model.*;
 import com.notronix.etsy.impl.authentication.EtsyOAuthAccessTokenRequest;
 import com.notronix.etsy.impl.authentication.EtsyOAuthTempCredentialsRequest;
 import com.notronix.etsy.impl.json.EtsyBooleanAdapter;
@@ -108,6 +105,11 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public List<? extends Country> findAllCountry(Credentials clientCreds) throws EtsyAPIException {
+        return execute(new FindAllCountryMethod().withClientCredentials(clientCreds));
+    }
+
+    @Override
     public EtsyUser getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetUserMethod()
@@ -115,6 +117,15 @@ public class EtsyDataService implements EtsyAPI
                                .withAssociations(associations)
                                .withClientCredentials(clientCreds)
                                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public String getAvatarImgSrc(Credentials clientCreds, Credentials accessCreds, String userId)
+            throws EtsyAPIException {
+        return execute(new GetAvatarImgSrcMethod()
+                .withUserId(userId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override

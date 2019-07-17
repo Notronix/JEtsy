@@ -33,7 +33,13 @@ public interface EtsyAPI
     List<? extends ApiMethod> getMethodTable(Credentials clientCreds)
             throws EtsyAPIException;
 
+    List<? extends Country> findAllCountry(Credentials clientCreds)
+            throws EtsyAPIException;
+
     User getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
+            throws EtsyAPIException;
+
+    String getAvatarImgSrc(Credentials clientCreds, Credentials accessCreds, String userId)
             throws EtsyAPIException;
 
     Response<? extends List<? extends ShippingTemplate>> findAllShippingTemplates(Credentials clientCreds, Credentials accessCreds)
