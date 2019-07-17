@@ -30,6 +30,9 @@ public interface EtsyAPI
     DataType describeWhoMadeEnum(Credentials clientCreds)
             throws EtsyAPIException;
 
+    List<? extends ApiMethod> getMethodTable(Credentials clientCreds)
+            throws EtsyAPIException;
+
     User getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException;
 

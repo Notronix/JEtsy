@@ -103,6 +103,11 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public List<EtsyApiMethod> getMethodTable(Credentials clientCreds) throws EtsyAPIException {
+        return execute(new GetMethodTableMethod().withClientCredentials(clientCreds));
+    }
+
+    @Override
     public EtsyUser getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetUserMethod()
