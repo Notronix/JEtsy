@@ -5,24 +5,31 @@ import com.google.api.client.http.HttpMethods;
 import com.google.gson.Gson;
 import com.notronix.etsy.api.authentication.Credentials;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Function;
 
-import static com.notronix.albacore.ContainerUtils.thereAreNo;
-import static org.apache.commons.lang3.StringUtils.isBlank;
+import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
+import static java.util.stream.Collectors.toSet;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public abstract class AbstractEtsyMethod<Result> implements EtsyMethod<Result>
 {
     private static final String API_URL_BASE = "https://openapi.etsy.com/v2";
 
+    static final Function<List<Enum>, String> ASSOCIATIONS_CONVERTER = list -> {
+        Set<String> includes = list.stream().map(Enum::name).collect(toSet());
+        return thereAreOneOrMore(includes) ? join(includes, ",") : "";
+    };
+
     private Credentials clientCredentials;
     private Credentials accessCredentials;
 
-    abstract String getURI(String apiKey);
+    abstract String getURI();
 
     @Override
-    public final String getURL(String apiKey) {
-        return API_URL_BASE + getURI(apiKey);
+    public final String getURL() {
+        return API_URL_BASE + getURI();
     }
 
     @Override
@@ -66,25 +73,5 @@ public abstract class AbstractEtsyMethod<Result> implements EtsyMethod<Result>
     public AbstractEtsyMethod<Result> withAccessCredentials(Credentials accessCredentials) {
         this.accessCredentials = accessCredentials;
         return this;
-    }
-
-    void putIfProvided(Map<String, Object> parameters, String key, Object value) {
-        if (value == null) {
-            return;
-        }
-
-        if (value instanceof CharSequence && isBlank((CharSequence) value)) {
-            return;
-        }
-
-        if ((value instanceof Collection) && thereAreNo((Collection<?>) value)) {
-            return;
-        }
-
-        if (value instanceof Map && thereAreNo((Map<?, ?>) value)) {
-            return;
-        }
-
-        parameters.put(key, value);
     }
 }

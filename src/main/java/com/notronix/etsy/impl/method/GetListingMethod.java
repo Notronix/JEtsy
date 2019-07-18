@@ -5,13 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.model.ListingAssociations;
 import com.notronix.etsy.impl.model.EtsyListing;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
-import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.lang3.StringUtils.join;
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
+import static com.notronix.etsy.impl.method.MethodUtils.safeList;
 
 public class GetListingMethod extends AbstractEtsyMethod<EtsyListing>
 {
@@ -19,18 +16,9 @@ public class GetListingMethod extends AbstractEtsyMethod<EtsyListing>
     private ListingAssociations[] associations;
 
     @Override
-    public String getURI(String apiKey) {
+    public String getURI() {
         String uri = "/listings/" + listingId;
-
-        boolean fullAccess = getAccessCredentials() != null;
-        if (!fullAccess) {
-            uri += "?api_key=" + apiKey;
-        }
-
-        Set<String> includes = Arrays.stream(associations).map(Enum::name).collect(toSet());
-        if (thereAreOneOrMore(includes)) {
-            uri += (fullAccess ? "?" : "&") + "includes=" + join(includes, ",");
-        }
+        uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }

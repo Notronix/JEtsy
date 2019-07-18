@@ -9,8 +9,8 @@ import java.util.List;
 public class DescribeWhoMadeEnumMethod extends AbstractEtsyMethod<EtsyDataType>
 {
     @Override
-    public String getURI(String apiKey) {
-        return "/types/enum/who_made?api_key=" + apiKey;
+    public String getURI() {
+        return "/types/enum/who_made";
     }
 
     @Override

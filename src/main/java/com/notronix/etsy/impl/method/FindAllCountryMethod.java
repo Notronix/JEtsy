@@ -9,8 +9,8 @@ import java.util.List;
 public class FindAllCountryMethod extends AbstractEtsyMethod<List<EtsyCountry>>
 {
     @Override
-    String getURI(String apiKey) {
-        return "/countries?api_key=" + apiKey;
+    String getURI() {
+        return "/countries";
     }
 
     @Override

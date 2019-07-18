@@ -6,7 +6,7 @@ import com.notronix.etsy.api.authentication.Credentials;
 
 public interface EtsyMethod<Result>
 {
-    String getURL(String apiKey);
+    String getURL();
     Result getResponse(Gson gson, String jsonPayload);
     Credentials getClientCredentials();
     Credentials getAccessCredentials();

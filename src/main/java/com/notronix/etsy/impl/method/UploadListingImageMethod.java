@@ -18,7 +18,7 @@ public class UploadListingImageMethod extends AbstractEtsyMethod<EtsyListingImag
     private File image;
 
     @Override
-    public String getURI(String apiKey) {
+    public String getURI() {
         return "/listings/" + requireNonNull(listingId) + "/images";
     }
 

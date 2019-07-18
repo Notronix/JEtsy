@@ -23,7 +23,7 @@ public class UpdateInventoryMethod extends AbstractEtsyMethod<EtsyListingInvento
     private ListingInventory inventory;
 
     @Override
-    String getURI(String apiKey) {
+    String getURI() {
         return "/listings/" + listingId + "/inventory";
     }
 

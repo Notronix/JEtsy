@@ -45,11 +45,21 @@ public interface EtsyAPI
     String getAvatarImgSrc(Credentials clientCreds, Credentials accessCreds, String userId)
             throws EtsyAPIException;
 
+    Response<? extends List<? extends Shop>> findAllShops(Credentials clientCreds, Credentials accessCreds,
+                                                          String shopName, Integer limit, Integer offset,
+                                                          Float lat, Float lon, Float distanceMax,
+                                                          ShopAssociations... associations)
+            throws EtsyAPIException;
+
     Response<? extends List<? extends Shop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds,
                                                               String userId, ShopAssociations... associations)
             throws EtsyAPIException;
 
-    Response<? extends List<? extends ShippingTemplate>> findAllShippingTemplates(Credentials clientCreds, Credentials accessCreds)
+    Response<? extends List<? extends ShippingTemplate>> findAllUserShippingProfiles(Credentials clientCreds,
+                                                                                     Credentials accessCreds,
+                                                                                     String userId,
+                                                                                     Integer limit,
+                                                                                     Integer offset)
             throws EtsyAPIException;
 
     List<? extends Taxonomy> getSellerTaxonomy(Credentials clientCreds)

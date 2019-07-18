@@ -9,8 +9,8 @@ import java.util.List;
 public class GetSellerTaxonomyMethod extends AbstractEtsyMethod<List<EtsyTaxonomy>>
 {
     @Override
-    public String getURI(String apiKey) {
-        return "/taxonomy/seller/get?api_key=" + apiKey;
+    public String getURI() {
+        return "/taxonomy/seller/get";
     }
 
     @Override

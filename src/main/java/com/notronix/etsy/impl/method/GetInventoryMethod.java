@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.impl.model.EtsyListingInventory;
 
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static java.lang.Boolean.TRUE;
 
 public class GetInventoryMethod extends AbstractEtsyMethod<EtsyListingInventory>
@@ -12,12 +13,9 @@ public class GetInventoryMethod extends AbstractEtsyMethod<EtsyListingInventory>
     private Boolean writeMissingInventory;
 
     @Override
-    public String getURI(String apiKey) {
-        String uri = "/listings/" + listingId + "/inventory?api_key=" + apiKey;
-
-        if (TRUE.equals(writeMissingInventory)) {
-            uri += "&write_missing_inventory=1";
-        }
+    public String getURI() {
+        String uri = "/listings/" + listingId + "/inventory";
+        uri = addIfProvided(uri, "write_missing_inventory", TRUE.equals(writeMissingInventory) ? "1" : null);
 
         return uri;
     }

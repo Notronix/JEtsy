@@ -18,14 +18,8 @@ public class GetAvatarImgSrcMethod extends AbstractEtsyMethod<String>
     }
 
     @Override
-    public String getURI(String apiKey) {
-        String uri = "/users/" + requireNonNull(userId) + "/avatar/src";
-
-        if (!__SELF__.equals(userId)) {
-            uri += "?api_key=" + apiKey;
-        }
-
-        return uri;
+    public String getURI() {
+        return "/users/" + requireNonNull(userId) + "/avatar/src";
     }
 
     @Override

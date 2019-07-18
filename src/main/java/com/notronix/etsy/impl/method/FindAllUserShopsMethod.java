@@ -5,14 +5,11 @@ import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.model.ShopAssociations;
 import com.notronix.etsy.impl.model.EtsyShop;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
 import static com.notronix.etsy.api.EtsyAPI.__SELF__;
-import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.lang3.StringUtils.join;
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
+import static com.notronix.etsy.impl.method.MethodUtils.safeList;
 
 public class FindAllUserShopsMethod extends AbstractEtsyMethod<EtsyResponse<List<EtsyShop>>>
 {
@@ -25,18 +22,9 @@ public class FindAllUserShopsMethod extends AbstractEtsyMethod<EtsyResponse<List
     }
 
     @Override
-    String getURI(String apiKey) {
+    String getURI() {
         String uri = "/users/" + userId + "/shops";
-
-        boolean fullAccess = __SELF__.equals(userId);
-        if (!fullAccess) {
-            uri += "?api_key=" + apiKey;
-        }
-
-        Set<String> includes = Arrays.stream(associations).map(Enum::name).collect(toSet());
-        if (thereAreOneOrMore(includes)) {
-            uri += (fullAccess ? "?" : "&") + "includes=" + join(includes, ",");
-        }
+        uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }

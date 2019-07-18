@@ -5,15 +5,12 @@ import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.model.UserAssociations;
 import com.notronix.etsy.impl.model.EtsyUser;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
-import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
 import static com.notronix.etsy.api.EtsyAPI.__SELF__;
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
+import static com.notronix.etsy.impl.method.MethodUtils.safeList;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
-import static org.apache.commons.lang3.StringUtils.join;
 
 public class GetUserMethod extends AbstractEtsyMethod<EtsyUser>
 {
@@ -26,24 +23,18 @@ public class GetUserMethod extends AbstractEtsyMethod<EtsyUser>
     }
 
     @Override
-    public String getURI(String apiKey) {
+    public String getURI() {
         String uri = "/users/" + requireNonNull(userId);
-
-        if (!__SELF__.equals(userId)) {
-            uri += "?api_key=" + apiKey;
-        }
-
-        Set<String> includes = Arrays.stream(associations).map(Enum::name).collect(toSet());
-        if (thereAreOneOrMore(includes)) {
-            uri += (__SELF__.equals(userId) ? "?" : "&") + "includes=" + join(includes, ",");
-        }
+        uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }
 
     @Override
     public EtsyUser getResponse(Gson gson, String jsonPayload) {
-        EtsyResponse<List<EtsyUser>> response = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyUser>>>(){}.getType());
+        EtsyResponse<List<EtsyUser>> response = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyUser>>>()
+        {
+        }.getType());
 
         return response.getResults().stream().findAny().orElse(null);
     }

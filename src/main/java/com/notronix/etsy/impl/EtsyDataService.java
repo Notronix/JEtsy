@@ -23,6 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static java.util.Objects.requireNonNull;
 import static jdk.nashorn.internal.objects.NativeArray.join;
 import static org.apache.http.HttpStatus.*;
@@ -134,6 +135,23 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public EtsyResponse<List<EtsyShop>> findAllShops(Credentials clientCreds, Credentials accessCreds,
+                                                     String shopName, Integer limit, Integer offset,
+                                                     Float lat, Float lon, Float distanceMax,
+                                                     ShopAssociations... associations) throws EtsyAPIException {
+        return execute(new FindAllShopsMethod()
+                .withAssociations(associations)
+                .withShopName(shopName)
+                .withLimit(limit)
+                .withOffset(offset)
+                .withLatitude(lat)
+                .withLongitude(lon)
+                .withDistanceMax(distanceMax)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
     public EtsyResponse<List<EtsyShop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds, String userId,
                                                          ShopAssociations... associations)
             throws EtsyAPIException {
@@ -145,9 +163,18 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyResponse<List<EtsyShippingTemplate>> findAllShippingTemplates(Credentials clientCreds, Credentials accessCreds)
+    public EtsyResponse<List<EtsyShippingTemplate>> findAllUserShippingProfiles(Credentials clientCreds,
+                                                                                Credentials accessCreds,
+                                                                                String userId,
+                                                                                Integer limit,
+                                                                                Integer offset)
             throws EtsyAPIException {
-        return execute(new GetShippingTemplatesMethod().withClientCredentials(clientCreds).withAccessCredentials(accessCreds));
+        return execute(new FindAllUserShippingProfilesMethod()
+                .withUserId(userId)
+                .withLimit(limit)
+                .withOffset(offset)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
     }
 
     @Override
@@ -256,10 +283,13 @@ public class EtsyDataService implements EtsyAPI
         Credentials accessCreds = (method.requiresOAuth()
                 ? requireNonNull(method.getAccessCredentials()) : method.getAccessCredentials());
 
+        HttpRequest request;
         String httpMethod = method.getRequestMethod();
         HttpContent content = method.getContent(getUpdatingGSON());
-        GenericUrl url = new GenericUrl(method.getURL(clientCreds.getToken()));
-        HttpRequest request;
+
+        String baseUrl = method.getURL();
+        baseUrl = addIfProvided(baseUrl, "api_key", accessCreds == null ? clientCreds.getToken() : null);
+        GenericUrl url = new GenericUrl(baseUrl);
 
         try {
             request = getRequestFactory().buildRequest(httpMethod, url, content);

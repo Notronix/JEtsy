@@ -9,8 +9,8 @@ import java.util.List;
 public class GetMethodTableMethod extends AbstractEtsyMethod<List<EtsyApiMethod>>
 {
     @Override
-    String getURI(String apiKey) {
-        return "/?api_key=" + apiKey;
+    String getURI() {
+        return "/";
     }
 
     @Override

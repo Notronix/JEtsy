@@ -11,8 +11,8 @@ public class GetTaxonomyNodePropertiesMethod extends AbstractEtsyMethod<List<Ets
     private Long taxonomyId;
 
     @Override
-    String getURI(String apiKey) {
-        return "/taxonomy/seller/" + taxonomyId + "/properties?api_key=" + apiKey;
+    String getURI() {
+        return "/taxonomy/seller/" + taxonomyId + "/properties";
     }
 
     @Override

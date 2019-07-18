@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.notronix.etsy.impl.method.MethodUtils.putIfProvided;
 import static java.util.Objects.requireNonNull;
 
 public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
@@ -29,7 +30,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
     }
 
     @Override
-    public String getURI(String apiKey) {
+    public String getURI() {
         return "/listings";
     }
 

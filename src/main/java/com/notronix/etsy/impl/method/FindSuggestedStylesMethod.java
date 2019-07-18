@@ -9,8 +9,8 @@ import java.util.List;
 public class FindSuggestedStylesMethod extends AbstractEtsyMethod<List<EtsyStyle>>
 {
     @Override
-    String getURI(String apiKey) {
-        return "/taxonomy/styles?api_key=" + apiKey;
+    String getURI() {
+        return "/taxonomy/styles";
     }
 
     @Override

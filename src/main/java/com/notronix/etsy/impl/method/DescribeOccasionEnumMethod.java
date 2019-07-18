@@ -9,8 +9,8 @@ import java.util.List;
 public class DescribeOccasionEnumMethod extends AbstractEtsyMethod<EtsyDataType>
 {
     @Override
-    public String getURI(String apiKey) {
-        return "/types/enum/occasion?api_key=" + apiKey;
+    public String getURI() {
+        return "/types/enum/occasion";
     }
 
     @Override

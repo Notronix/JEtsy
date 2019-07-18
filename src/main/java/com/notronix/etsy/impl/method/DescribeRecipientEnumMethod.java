@@ -9,8 +9,8 @@ import java.util.List;
 public class DescribeRecipientEnumMethod extends AbstractEtsyMethod<EtsyDataType>
 {
     @Override
-    public String getURI(String apiKey) {
-        return "/types/enum/recipient?api_key=" + apiKey;
+    public String getURI() {
+        return "/types/enum/recipient";
     }
 
     @Override
