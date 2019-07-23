@@ -12,7 +12,13 @@ out of the gate.  There's nothing to change, unless you need a specific feature 
 implementations (ex. a different Http transport).
 
 ### Installation
-JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+Version 1.0.0003 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+
+    <dependency>
+        <groupId>com.notronix</groupId>
+        <artifactId>JEtsy</artifactId>
+        <version>1.0.0003</version>
+    </dependency>
 
 ### Contribution
 1. Found an issue?  Add the details [here](https://github.com/Notronix/JEtsy/issues)
