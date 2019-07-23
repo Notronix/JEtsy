@@ -1,0 +1,3 @@
+### Thanks for wanting to contribute.  Here's how...
+1. Found an issue?  Add the details [here](https://github.com/Notronix/JEtsy/issues)
+2. Want code changed? Fork the repository and make a pull request.
