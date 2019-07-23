@@ -55,6 +55,9 @@ public interface EtsyAPI
                                                               String userId, ShopAssociations... associations)
             throws EtsyAPIException;
 
+    Shop getShop(Credentials clientCreds, Credentials accessCreds, Long shopId, ShopAssociations... associations)
+            throws EtsyAPIException;
+
     Response<? extends List<? extends ShippingTemplate>> findAllUserShippingProfiles(Credentials clientCreds,
                                                                                      Credentials accessCreds,
                                                                                      String userId,
@@ -84,5 +87,22 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     ListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image)
+            throws EtsyAPIException;
+
+    Cart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
+                                 CartAssociations... associations)
+            throws EtsyAPIException;
+
+    Response<? extends List<? extends Cart>> getAllUserCarts(Credentials clientCreds, Credentials accessCreds,
+                                                             String userId, CartAssociations... associations)
+            throws EtsyAPIException;
+
+    Cart getUserCart(Credentials clientCreds, Credentials accessCreds, String userId, Long cartId)
+            throws  EtsyAPIException;
+
+    Cart addToCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId, Integer quantity)
+            throws EtsyAPIException;
+
+    List<? extends Coupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, Long shopId)
             throws EtsyAPIException;
 }

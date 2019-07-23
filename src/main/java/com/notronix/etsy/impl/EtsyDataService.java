@@ -16,6 +16,7 @@ import com.notronix.etsy.impl.authentication.EtsyOAuthTempCredentialsRequest;
 import com.notronix.etsy.impl.json.EtsyBooleanAdapter;
 import com.notronix.etsy.impl.json.EtsyMoneyAdapter;
 import com.notronix.etsy.impl.json.EtsyPaymentInfoAdapter;
+import com.notronix.etsy.impl.json.EtsyRelatedLinksAdapter;
 import com.notronix.etsy.impl.method.*;
 import com.notronix.etsy.impl.model.*;
 
@@ -163,6 +164,17 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public EtsyShop getShop(Credentials clientCreds, Credentials accessCreds, Long shopId,
+                            ShopAssociations... associations)
+            throws EtsyAPIException {
+        return execute(new GetShopMethod()
+                .withShopId(shopId)
+                .withAssociations(associations)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
     public EtsyResponse<List<EtsyShippingTemplate>> findAllUserShippingProfiles(Credentials clientCreds,
                                                                                 Credentials accessCreds,
                                                                                 String userId,
@@ -242,6 +254,55 @@ public class EtsyDataService implements EtsyAPI
         return execute(new UploadListingImageMethod()
                 .withListingId(listingId)
                 .withImage(image)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public EtsyCart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
+                                            CartAssociations... associations) throws EtsyAPIException {
+        return execute(new CreateSingleListingCartMethod()
+                .withUserId(userId)
+                .withListingId(listingId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public EtsyResponse<List<EtsyCart>> getAllUserCarts(Credentials clientCreds, Credentials accessCreds, String userId,
+                                                        CartAssociations... associations) throws EtsyAPIException {
+        return execute(new GetAllUserCartsMethod()
+                .withUserId(userId)
+                .withAssociations(associations)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public Cart getUserCart(Credentials clientCreds, Credentials accessCreds, String userId, Long cartId)
+            throws EtsyAPIException {
+        return execute(new GetUserCartMethod()
+                .withUserId(userId)
+                .withCartId(cartId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public EtsyCart addToCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
+                              Integer quantity) throws EtsyAPIException {
+        return execute(new AddToCartMethod()
+                .withUserId(userId)
+                .withListingId(listingId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public List<EtsyCoupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, Long shopId)
+            throws EtsyAPIException {
+        return execute(new FindAllShopCouponsMethod()
+                .withShopId(shopId)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
@@ -357,6 +418,7 @@ public class EtsyDataService implements EtsyAPI
 
             updatingGSON = new GsonBuilder().setVersion(0)
                     .registerTypeAdapter(EtsyPaymentInfo.class, new EtsyPaymentInfoAdapter())
+                    .registerTypeAdapter(EtsyRelatedLinks.class, new EtsyRelatedLinksAdapter())
                     .registerTypeAdapter(Boolean.class, new EtsyBooleanAdapter())
                     .registerTypeAdapter(EtsyMoney.class, new EtsyMoneyAdapter())
                     .create();
@@ -377,6 +439,7 @@ public class EtsyDataService implements EtsyAPI
 
             receivingGSON = new GsonBuilder()
                     .registerTypeAdapter(EtsyPaymentInfo.class, new EtsyPaymentInfoAdapter())
+                    .registerTypeAdapter(EtsyRelatedLinks.class, new EtsyRelatedLinksAdapter())
                     .registerTypeAdapter(Boolean.class, new EtsyBooleanAdapter())
                     .create();
         }

@@ -32,9 +32,8 @@ public class GetUserMethod extends AbstractEtsyMethod<EtsyUser>
 
     @Override
     public EtsyUser getResponse(Gson gson, String jsonPayload) {
-        EtsyResponse<List<EtsyUser>> response = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyUser>>>()
-        {
-        }.getType());
+        EtsyResponse<List<EtsyUser>> response
+                = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyUser>>>(){}.getType());
 
         return response.getResults().stream().findAny().orElse(null);
     }

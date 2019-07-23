@@ -15,7 +15,7 @@ public abstract class MethodUtils
 {
     @SafeVarargs
     public static <T> List<T> safeList(T... list) {
-        return list == null ? null : asList(list);
+        return list == null ? null : (list.length > 0 ? asList(list) : null);
     }
 
     public static char getDelimiter(String uri) {

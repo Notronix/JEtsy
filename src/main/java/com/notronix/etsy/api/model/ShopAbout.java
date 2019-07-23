@@ -9,5 +9,5 @@ public interface ShopAbout
     String getStoryHeadline();
     String getStoryLeadingParagraph();
     String getStory();
-    List<String> getRelatedLinks();
+    List<? extends RelatedLink> getRelatedLinks();
     String getUrl();}

@@ -77,38 +77,6 @@ public class EtsyPaymentInfoAdapter extends TypeAdapter<EtsyPaymentInfo>
         return null;
     }
 
-    private boolean handledNull(JsonWriter out, Object value, String name) throws IOException {
-        if (value == null && !out.getSerializeNulls()) {
-            return true;
-        }
-
-        out.name(name);
-        if (value == null) {
-            out.nullValue();
-            return true;
-        }
-
-        return false;
-    }
-
-    private void outString(JsonWriter out, String value, String name) throws IOException {
-        if (!handledNull(out, value, name)) {
-            out.value(value);
-        }
-    }
-
-    private void outLong(JsonWriter out, Long value, String name) throws IOException {
-        if (!handledNull(out, value, name)) {
-            out.value(value);
-        }
-    }
-
-    private void outBoolean(JsonWriter out, Boolean value, String name) throws IOException {
-        if (!handledNull(out, value, name)) {
-            out.value(value);
-        }
-    }
-
     private EtsyPaymentTemplate buildEtsyPaymentTemplate(JsonReader in) throws IOException {
         EtsyPaymentTemplate template = new EtsyPaymentTemplate();
         in.beginObject();

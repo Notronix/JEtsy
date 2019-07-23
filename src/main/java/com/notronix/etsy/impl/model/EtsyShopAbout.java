@@ -3,8 +3,6 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.ShopAbout;
 
-import java.util.List;
-
 public class EtsyShopAbout implements ShopAbout
 {
     @SerializedName(value = "shop_id")
@@ -21,7 +19,7 @@ public class EtsyShopAbout implements ShopAbout
     private String story;
 
     @SerializedName(value = "related_links")
-    private List<String> relatedLinks;
+    private EtsyRelatedLinks relatedLinks;
 
     private String url;
 
@@ -71,11 +69,11 @@ public class EtsyShopAbout implements ShopAbout
     }
 
     @Override
-    public List<String> getRelatedLinks() {
+    public EtsyRelatedLinks getRelatedLinks() {
         return relatedLinks;
     }
 
-    public void setRelatedLinks(List<String> relatedLinks) {
+    public void setRelatedLinks(EtsyRelatedLinks relatedLinks) {
         this.relatedLinks = relatedLinks;
     }
 

@@ -2,10 +2,11 @@ package com.notronix.etsy.impl.json;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-public abstract class JsonAdapterUtils
+abstract class JsonAdapterUtils
 {
     static String nextString(JsonReader in) throws IOException {
         if (in.peek() == JsonToken.NULL) {
@@ -41,5 +42,37 @@ public abstract class JsonAdapterUtils
         }
 
         return in.nextBoolean();
+    }
+
+    private static boolean nullNotHandled(JsonWriter out, Object value, String name) throws IOException {
+        if (value == null && !out.getSerializeNulls()) {
+            return false;
+        }
+
+        out.name(name);
+        if (value == null) {
+            out.nullValue();
+            return false;
+        }
+
+        return true;
+    }
+
+    static void outString(JsonWriter out, String value, String name) throws IOException {
+        if (nullNotHandled(out, value, name)) {
+            out.value(value);
+        }
+    }
+
+    static void outLong(JsonWriter out, Long value, String name) throws IOException {
+        if (nullNotHandled(out, value, name)) {
+            out.value(value);
+        }
+    }
+
+    static void outBoolean(JsonWriter out, Boolean value, String name) throws IOException {
+        if (nullNotHandled(out, value, name)) {
+            out.value(value);
+        }
     }
 }
