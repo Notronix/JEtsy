@@ -10,16 +10,26 @@ import java.net.URLConnection;
 import java.util.List;
 import java.util.UUID;
 
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.BooleanUtils.isTrue;
 
 public class UploadListingImageMethod extends AbstractEtsyMethod<EtsyListingImage>
 {
     private Long listingId;
     private File image;
+    private Integer rank;
+    private Boolean overwrite;
+    private Boolean isWaterMarked;
 
     @Override
     public String getURI() {
-        return "/listings/" + requireNonNull(listingId) + "/images";
+        String uri = "/listings/" + requireNonNull(listingId) + "/images";
+        uri = addIfProvided(uri, "rank", rank);
+        uri = addIfProvided(uri, "overwrite", overwrite, b -> isTrue(b) ? "1" : "0");
+        uri = addIfProvided(uri, "is_watermarked", isWaterMarked, b -> isTrue(b) ? "1" : "0");
+
+        return uri;
     }
 
     @Override
@@ -80,6 +90,45 @@ public class UploadListingImageMethod extends AbstractEtsyMethod<EtsyListingImag
 
     public UploadListingImageMethod withImage(File image) {
         this.image = image;
+        return this;
+    }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    public UploadListingImageMethod withRank(Integer rank) {
+        this.rank = rank;
+        return this;
+    }
+
+    public Boolean getOverwrite() {
+        return overwrite;
+    }
+
+    public void setOverwrite(Boolean overwrite) {
+        this.overwrite = overwrite;
+    }
+
+    public UploadListingImageMethod withOverwrite(Boolean overwrite) {
+        this.overwrite = overwrite;
+        return this;
+    }
+
+    public Boolean getIsWaterMarked() {
+        return isWaterMarked;
+    }
+
+    public void setIsWaterMarked(Boolean isWaterMarked) {
+        this.isWaterMarked = isWaterMarked;
+    }
+
+    public UploadListingImageMethod withIsWaterMarked(Boolean isWaterMarked) {
+        this.isWaterMarked = isWaterMarked;
         return this;
     }
 }

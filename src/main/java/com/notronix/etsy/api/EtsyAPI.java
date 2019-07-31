@@ -86,7 +86,8 @@ public interface EtsyAPI
     Response<? extends Listing> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
             throws EtsyAPIException;
 
-    ListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image)
+    ListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image,
+                                    Integer rank, Boolean overwrite, Boolean isWaterMarked)
             throws EtsyAPIException;
 
     Cart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,

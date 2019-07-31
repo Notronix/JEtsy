@@ -6,7 +6,7 @@ public interface Response<T>
 {
     Integer getCount();
     T getResults();
-    Map<String, String> getParams();
+    Map<String, Object> getParams();
     String getType();
     Pagination getPagination();
 }

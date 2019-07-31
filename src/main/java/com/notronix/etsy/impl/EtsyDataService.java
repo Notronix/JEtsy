@@ -249,11 +249,15 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image)
+    public EtsyListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId,
+                                               File image, Integer rank, Boolean overwrite, Boolean isWaterMarked)
             throws EtsyAPIException {
         return execute(new UploadListingImageMethod()
                 .withListingId(listingId)
                 .withImage(image)
+                .withRank(rank)
+                .withOverwrite(overwrite)
+                .withIsWaterMarked(isWaterMarked)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }

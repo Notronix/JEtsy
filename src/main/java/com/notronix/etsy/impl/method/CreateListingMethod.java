@@ -12,8 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.notronix.albacore.ContainerUtils.thereAreNo;
 import static com.notronix.etsy.impl.method.MethodUtils.putIfProvided;
 import static java.util.Objects.requireNonNull;
+import static org.apache.commons.lang3.StringUtils.join;
 
 public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
 {
@@ -55,7 +57,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         putIfProvided(parameters, "processing_max", listing.getProcessingMax());
         putIfProvided(parameters, "category_id", listing.getCategoryId());
         putIfProvided(parameters, "taxonomy_id", listing.getTaxonomyId());
-        putIfProvided(parameters, "tags", listing.getTags() == null ? null : gson.toJson(listing.getTags()));
+        putIfProvided(parameters, "tags", thereAreNo(listing.getTags()) ? null : join(listing.getTags(), ","));
         putIfProvided(parameters, "recipient", listing.getRecipient());
         putIfProvided(parameters, "occasion", listing.getOccasion());
         putIfProvided(parameters, "style", listing.getStyle() == null ? null : gson.toJson(listing.getStyle()));

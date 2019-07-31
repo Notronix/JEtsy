@@ -11,9 +11,12 @@ public class ApiTester
     private Object test(EtsyDataService eds, Credentials clientCreds, Credentials accessCreds)
             throws EtsyAPIException {
         Long listingId = -1L; // change this to the listing you want to add the image to
+        Integer rank = 1;
+        Boolean overwrite = null;
+        Boolean isWaterMarked = null;
         File image = null; // add code here to get your image as a java.io.File instance.
 
-        return eds.uploadListingImage(clientCreds, accessCreds, listingId, image);
+        return eds.uploadListingImage(clientCreds, accessCreds, listingId, image, rank, overwrite, isWaterMarked);
     }
 
     /**

@@ -8,7 +8,7 @@ public class EtsyResponse<T> implements Response<T>
 {
     private Integer count;
     private T results;
-    private Map<String, String> params;
+    private Map<String, Object> params;
     private String type;
     private PaginationImpl pagination;
 
@@ -31,11 +31,11 @@ public class EtsyResponse<T> implements Response<T>
     }
 
     @Override
-    public Map<String, String> getParams() {
+    public Map<String, Object> getParams() {
         return params;
     }
 
-    public void setParams(Map<String, String> params) {
+    public void setParams(Map<String, Object> params) {
         this.params = params;
     }
 

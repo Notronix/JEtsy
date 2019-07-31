@@ -45,8 +45,6 @@ public class UpdateInventoryMethod extends AbstractEtsyMethod<EtsyListingInvento
         requireNonNull(products);
 
         String productsParam = gson.toJson(products);
-//        productsParam = "[{\"product_id\":null,\"property_values\":[],"
-//                + "\"offerings\":[{\"offering_id\":null,\"price\":\"5.00\",\"quantity\":1}]}]";
         params.put("products", productsParam);
 
         List<Long> priceControllers = inventory.getPriceControllingProperties();
