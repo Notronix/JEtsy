@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.notronix'
-version '1.0.0004'
+version '1.0.0005'
 
 sourceCompatibility = 1.8
 

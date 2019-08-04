@@ -48,19 +48,24 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         parameters.put("is_supply", requireNonNull(listing.getIsSupply()).toString());
         parameters.put("when_made", requireNonNull(listing.getWhenMade()));
 
-        putIfProvided(parameters, "materials", listing.getMaterials() == null ? null : gson.toJson(listing.getMaterials()));
+        putIfProvided(parameters, "materials",
+                thereAreNo(listing.getMaterials()) ? null : join(listing.getMaterials(), ","));
         putIfProvided(parameters, "shop_section_id", listing.getShopSectionId());
-        putIfProvided(parameters, "is_customizable", listing.getIsCustomizable() == null ? null : listing.getIsCustomizable().toString());
-        putIfProvided(parameters, "non_taxable", listing.getNonTaxable() == null ? null : listing.getNonTaxable().toString());
+        putIfProvided(parameters, "is_customizable",
+                listing.getIsCustomizable() == null ? null : listing.getIsCustomizable().toString());
+        putIfProvided(parameters, "non_taxable",
+                listing.getNonTaxable() == null ? null : listing.getNonTaxable().toString());
         putIfProvided(parameters, "state", listing.getState());
         putIfProvided(parameters, "processing_min", listing.getProcessingMin());
         putIfProvided(parameters, "processing_max", listing.getProcessingMax());
         putIfProvided(parameters, "category_id", listing.getCategoryId());
         putIfProvided(parameters, "taxonomy_id", listing.getTaxonomyId());
-        putIfProvided(parameters, "tags", thereAreNo(listing.getTags()) ? null : join(listing.getTags(), ","));
+        putIfProvided(parameters, "tags",
+                thereAreNo(listing.getTags()) ? null : join(listing.getTags(), ","));
         putIfProvided(parameters, "recipient", listing.getRecipient());
         putIfProvided(parameters, "occasion", listing.getOccasion());
-        putIfProvided(parameters, "style", listing.getStyle() == null ? null : gson.toJson(listing.getStyle()));
+        putIfProvided(parameters, "style",
+                thereAreNo(listing.getStyle()) ? null : join(listing.getStyle(), ","));
 
         return new UrlEncodedContent(parameters);
     }

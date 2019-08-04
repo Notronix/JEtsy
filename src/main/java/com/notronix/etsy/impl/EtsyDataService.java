@@ -263,6 +263,27 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
+    public List<EtsyListingVariationImage> getVariationImages(Credentials clientCreds, Credentials accessCreds, Long listingId)
+            throws EtsyAPIException {
+        return execute(new GetVariationImagesMethod()
+                .withListingId(listingId)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public List<EtsyListingVariationImage> updateVariationImages(Credentials clientCreds, Credentials accessCreds,
+                                                                 Long listingId,
+                                                                 List<? extends ListingVariationImage> variationImages)
+            throws EtsyAPIException {
+        return execute(new UpdateVariationImagesMethod()
+                .withListingId(listingId)
+                .withVariationImages(variationImages)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    @Override
     public EtsyCart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
                                             CartAssociations... associations) throws EtsyAPIException {
         return execute(new CreateSingleListingCartMethod()

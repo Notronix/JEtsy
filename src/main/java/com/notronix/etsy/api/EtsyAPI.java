@@ -90,6 +90,13 @@ public interface EtsyAPI
                                     Integer rank, Boolean overwrite, Boolean isWaterMarked)
             throws EtsyAPIException;
 
+    List<? extends ListingVariationImage> getVariationImages(Credentials clientCreds, Credentials accessCreds, Long listingId)
+            throws EtsyAPIException;
+
+    List<? extends ListingVariationImage> updateVariationImages(Credentials clientCreds, Credentials accessCreds, Long listingId,
+                               List<? extends ListingVariationImage> variationImages)
+            throws EtsyAPIException;
+
     Cart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
                                  CartAssociations... associations)
             throws EtsyAPIException;
