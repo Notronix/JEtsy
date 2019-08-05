@@ -5,7 +5,9 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.model.DimensionUnit;
 import com.notronix.etsy.api.model.ListingState;
+import com.notronix.etsy.api.model.WeightUnit;
 import com.notronix.etsy.impl.model.EtsyListing;
 
 import java.util.HashMap;
@@ -17,21 +19,25 @@ import static com.notronix.etsy.impl.method.MethodUtils.putIfProvided;
 import static java.util.Objects.requireNonNull;
 import static org.apache.commons.lang3.StringUtils.join;
 
-public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
+public class UpdateListingMethod extends AbstractEtsyMethod<EtsyListing>
 {
-    private Integer quantity;
+    private Long listingId;
     private String title;
     private String description;
-    private Float price;
     private List<String> materials;
+    private Boolean renew;
     private Long shippingTemplateId;
     private Long shopSectionId;
+    private ListingState state;
     private List<Long> imageIds;
     private Boolean isCustomizable;
+    private Float itemWeight;
+    private Float itemLength;
+    private Float itemWidth;
+    private Float itemHeight;
+    private WeightUnit weightUnit;
+    private DimensionUnit dimensionUnit;
     private Boolean nonTaxable;
-    private ListingState state;
-    private Integer processingMin;
-    private Integer processingMax;
     private Long categoryId;
     private Long taxonomyId;
     private List<String> tags;
@@ -41,6 +47,9 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
     private String recipient;
     private String occasion;
     private List<String> style;
+    private Integer processingMin;
+    private Integer processingMax;
+    private String featuredRank;
 
     @Override
     public boolean requiresOAuth() {
@@ -49,41 +58,47 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
 
     @Override
     public String getRequestMethod() {
-        return HttpMethods.POST;
+        return HttpMethods.PUT;
     }
 
     @Override
     public String getURI() {
-        return "/listings";
+        return "/listings/" + requireNonNull(listingId);
     }
 
     @Override
     public HttpContent getContent(Gson gson) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("quantity", requireNonNull(quantity));
-        parameters.put("title", requireNonNull(title));
-        parameters.put("description", requireNonNull(description));
-        parameters.put("price", requireNonNull(price));
-        parameters.put("shipping_template_id", requireNonNull(shippingTemplateId));
-        parameters.put("who_made", requireNonNull(whoMade));
-        parameters.put("is_supply", requireNonNull(isSupply));
-        parameters.put("when_made", requireNonNull(whenMade));
+        Map<String, Object> params = new HashMap<>();
+        putIfProvided(params, "title", title);
+        putIfProvided(params, "description", description);
+        putIfProvided(params, "materials", thereAreNo(materials) ? null : join(materials, ","));
+        putIfProvided(params, "renew", renew);
+        putIfProvided(params, "shipping_template_id", shippingTemplateId);
+        putIfProvided(params, "shop_section_id", shopSectionId);
+        putIfProvided(params, "state", state == null ? null : state.apiValue());
+        putIfProvided(params, "image_ids", thereAreNo(imageIds) ? null : join(imageIds, ","));
+        putIfProvided(params, "is_customizable", isCustomizable);
+        putIfProvided(params, "item_weight", itemWeight);
+        putIfProvided(params, "item_length", itemLength);
+        putIfProvided(params, "item_width", itemWidth);
+        putIfProvided(params, "item_height", itemHeight);
+        putIfProvided(params, "item_weight_unit", weightUnit == null ? null : weightUnit.name());
+        putIfProvided(params, "item_dimensions_unit", dimensionUnit == null ? null : dimensionUnit.name());
+        putIfProvided(params, "non_taxable", nonTaxable);
+        putIfProvided(params, "category_id", categoryId);
+        putIfProvided(params, "taxonomy_id", taxonomyId);
+        putIfProvided(params, "tags", thereAreNo(tags) ? null : join(tags, ","));
+        putIfProvided(params, "who_made", whoMade);
+        putIfProvided(params, "is_supply", isSupply);
+        putIfProvided(params, "when_made", whenMade);
+        putIfProvided(params, "recipient", recipient);
+        putIfProvided(params, "occasion", occasion);
+        putIfProvided(params, "style", thereAreNo(style) ? null : join(style, ","));
+        putIfProvided(params, "processing_min", processingMin);
+        putIfProvided(params, "processing_max", processingMax);
+        putIfProvided(params, "featured_rank", featuredRank);
 
-        putIfProvided(parameters, "materials", thereAreNo(materials) ? null : join(materials, ","));
-        putIfProvided(parameters, "shop_section_id", shopSectionId);
-        putIfProvided(parameters, "is_customizable", isCustomizable);
-        putIfProvided(parameters, "non_taxable", nonTaxable);
-        putIfProvided(parameters, "state", state == null ? null : state.apiValue());
-        putIfProvided(parameters, "processing_min", processingMin);
-        putIfProvided(parameters, "processing_max", processingMax);
-        putIfProvided(parameters, "category_id", categoryId);
-        putIfProvided(parameters, "taxonomy_id", taxonomyId);
-        putIfProvided(parameters, "tags", thereAreNo(tags) ? null : join(tags, ","));
-        putIfProvided(parameters, "recipient", recipient);
-        putIfProvided(parameters, "occasion", occasion);
-        putIfProvided(parameters, "style", thereAreNo(style) ? null : join(style, ","));
-
-        return new UrlEncodedContent(parameters);
+        return new UrlEncodedContent(params);
     }
 
     @Override
@@ -94,16 +109,16 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         return response.getResults().stream().findAny().orElse(null);
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Long getListingId() {
+        return listingId;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setListingId(Long listingId) {
+        this.listingId = listingId;
     }
 
-    public CreateListingMethod withQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public UpdateListingMethod withListingId(Long listingId) {
+        this.listingId = listingId;
         return this;
     }
 
@@ -115,7 +130,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.title = title;
     }
 
-    public CreateListingMethod withTitle(String title) {
+    public UpdateListingMethod withTitle(String title) {
         this.title = title;
         return this;
     }
@@ -128,7 +143,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.description = description;
     }
 
-    public CreateListingMethod withDescription(String description) {
+    public UpdateListingMethod withDescription(String description) {
         this.description = description;
         return this;
     }
@@ -141,8 +156,21 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.materials = materials;
     }
 
-    public CreateListingMethod withMaterials(List<String> materials) {
+    public UpdateListingMethod withMaterials(List<String> materials) {
         this.materials = materials;
+        return this;
+    }
+
+    public Boolean getRenew() {
+        return renew;
+    }
+
+    public void setRenew(Boolean renew) {
+        this.renew = renew;
+    }
+
+    public UpdateListingMethod withRenew(Boolean renew) {
+        this.renew = renew;
         return this;
     }
 
@@ -154,7 +182,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.shippingTemplateId = shippingTemplateId;
     }
 
-    public CreateListingMethod withShippingTemplateId(Long shippingTemplateId) {
+    public UpdateListingMethod withShippingTemplateId(Long shippingTemplateId) {
         this.shippingTemplateId = shippingTemplateId;
         return this;
     }
@@ -167,7 +195,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.shopSectionId = shopSectionId;
     }
 
-    public CreateListingMethod withShopSectionId(Long shopSectionId) {
+    public UpdateListingMethod withShopSectionId(Long shopSectionId) {
         this.shopSectionId = shopSectionId;
         return this;
     }
@@ -180,7 +208,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.state = state;
     }
 
-    public CreateListingMethod withState(ListingState state) {
+    public UpdateListingMethod withState(ListingState state) {
         this.state = state;
         return this;
     }
@@ -193,7 +221,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.imageIds = imageIds;
     }
 
-    public CreateListingMethod withImageIds(List<Long> imageIds) {
+    public UpdateListingMethod withImageIds(List<Long> imageIds) {
         this.imageIds = imageIds;
         return this;
     }
@@ -206,8 +234,86 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.isCustomizable = isCustomizable;
     }
 
-    public CreateListingMethod withIsCustomizable(Boolean isCustomizable) {
+    public UpdateListingMethod withIsCustomizable(Boolean isCustomizable) {
         this.isCustomizable = isCustomizable;
+        return this;
+    }
+
+    public Float getItemWeight() {
+        return itemWeight;
+    }
+
+    public void setItemWeight(Float itemWeight) {
+        this.itemWeight = itemWeight;
+    }
+
+    public UpdateListingMethod withItemWeight(Float itemWeight) {
+        this.itemWeight = itemWeight;
+        return this;
+    }
+
+    public Float getItemLength() {
+        return itemLength;
+    }
+
+    public void setItemLength(Float itemLength) {
+        this.itemLength = itemLength;
+    }
+
+    public UpdateListingMethod withItemLength(Float itemLength) {
+        this.itemLength = itemLength;
+        return this;
+    }
+
+    public Float getItemWidth() {
+        return itemWidth;
+    }
+
+    public void setItemWidth(Float itemWidth) {
+        this.itemWidth = itemWidth;
+    }
+
+    public UpdateListingMethod withItemWidth(Float itemWidth) {
+        this.itemWidth = itemWidth;
+        return this;
+    }
+
+    public Float getItemHeight() {
+        return itemHeight;
+    }
+
+    public void setItemHeight(Float itemHeight) {
+        this.itemHeight = itemHeight;
+    }
+
+    public UpdateListingMethod withItemHeight(Float itemHeight) {
+        this.itemHeight = itemHeight;
+        return this;
+    }
+
+    public WeightUnit getWeightUnit() {
+        return weightUnit;
+    }
+
+    public void setWeightUnit(WeightUnit weightUnit) {
+        this.weightUnit = weightUnit;
+    }
+
+    public UpdateListingMethod withWeightUnit(WeightUnit weightUnit) {
+        this.weightUnit = weightUnit;
+        return this;
+    }
+
+    public DimensionUnit getDimensionUnit() {
+        return dimensionUnit;
+    }
+
+    public void setDimensionUnit(DimensionUnit dimensionUnit) {
+        this.dimensionUnit = dimensionUnit;
+    }
+
+    public UpdateListingMethod withDimensionUnit(DimensionUnit dimensionUnit) {
+        this.dimensionUnit = dimensionUnit;
         return this;
     }
 
@@ -219,7 +325,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.nonTaxable = nonTaxable;
     }
 
-    public CreateListingMethod withNonTaxable(Boolean nonTaxable) {
+    public UpdateListingMethod withNonTaxable(Boolean nonTaxable) {
         this.nonTaxable = nonTaxable;
         return this;
     }
@@ -232,7 +338,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.categoryId = categoryId;
     }
 
-    public CreateListingMethod withCategoryId(Long categoryId) {
+    public UpdateListingMethod withCategoryId(Long categoryId) {
         this.categoryId = categoryId;
         return this;
     }
@@ -245,7 +351,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.taxonomyId = taxonomyId;
     }
 
-    public CreateListingMethod withTaxonomyId(Long taxonomyId) {
+    public UpdateListingMethod withTaxonomyId(Long taxonomyId) {
         this.taxonomyId = taxonomyId;
         return this;
     }
@@ -258,7 +364,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.tags = tags;
     }
 
-    public CreateListingMethod withTags(List<String> tags) {
+    public UpdateListingMethod withTags(List<String> tags) {
         this.tags = tags;
         return this;
     }
@@ -271,7 +377,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.whoMade = whoMade;
     }
 
-    public CreateListingMethod withWhoMade(String whoMade) {
+    public UpdateListingMethod withWhoMade(String whoMade) {
         this.whoMade = whoMade;
         return this;
     }
@@ -284,7 +390,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.isSupply = isSupply;
     }
 
-    public CreateListingMethod withIsSupply(Boolean isSupply) {
+    public UpdateListingMethod withIsSupply(Boolean isSupply) {
         this.isSupply = isSupply;
         return this;
     }
@@ -297,7 +403,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.whenMade = whenMade;
     }
 
-    public CreateListingMethod withWhenMade(String whenMade) {
+    public UpdateListingMethod withWhenMade(String whenMade) {
         this.whenMade = whenMade;
         return this;
     }
@@ -310,7 +416,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.recipient = recipient;
     }
 
-    public CreateListingMethod withRecipient(String recipient) {
+    public UpdateListingMethod withRecipient(String recipient) {
         this.recipient = recipient;
         return this;
     }
@@ -323,7 +429,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.occasion = occasion;
     }
 
-    public CreateListingMethod withOccasion(String occasion) {
+    public UpdateListingMethod withOccasion(String occasion) {
         this.occasion = occasion;
         return this;
     }
@@ -336,7 +442,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.style = style;
     }
 
-    public CreateListingMethod withStyle(List<String> style) {
+    public UpdateListingMethod withStyle(List<String> style) {
         this.style = style;
         return this;
     }
@@ -349,7 +455,7 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.processingMin = processingMin;
     }
 
-    public CreateListingMethod withProcessingMin(Integer processingMin) {
+    public UpdateListingMethod withProcessingMin(Integer processingMin) {
         this.processingMin = processingMin;
         return this;
     }
@@ -362,21 +468,21 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
         this.processingMax = processingMax;
     }
 
-    public CreateListingMethod withProcessingMax(Integer processingMax) {
+    public UpdateListingMethod withProcessingMax(Integer processingMax) {
         this.processingMax = processingMax;
         return this;
     }
 
-    public Float getPrice() {
-        return price;
+    public String getFeaturedRank() {
+        return featuredRank;
     }
 
-    public void setPrice(Float price) {
-        this.price = price;
+    public void setFeaturedRank(String featuredRank) {
+        this.featuredRank = featuredRank;
     }
 
-    public CreateListingMethod withPrice(Float price) {
-        this.price = price;
+    public UpdateListingMethod withFeaturedRank(String featuredRank) {
+        this.featuredRank = featuredRank;
         return this;
     }
 }

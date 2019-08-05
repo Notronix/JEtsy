@@ -71,7 +71,22 @@ public interface EtsyAPI
     List<? extends TaxonomyNodeProperty> getTaxonomyNodeProperties(Credentials clientCreds, Long taxonomyId)
             throws EtsyAPIException;
 
-    Listing createListing(Credentials clientCreds, Credentials accessCreds, Listing listing)
+    Listing createListing(Credentials clientCreds, Credentials accessCreds, Integer quantity, String title,
+                          String description, Float price, List<String> materials, Long shippingTemplateId,
+                          Long shopSectionId, List<Long> imageIds, Boolean isCustomizable, Boolean nonTaxable,
+                          ListingState state, Integer processingMin, Integer processingMax, Long categoryId,
+                          Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
+                          String recipient, String occasion, List<String> style)
+            throws EtsyAPIException;
+
+    Listing updateListing(Credentials clientCreds, Credentials accessCreds, Long listingId, String title,
+                          String description, List<String> materials, Boolean renew, Long shippingTemplateId,
+                          Long shopSectionId, ListingState state, List<Long> imageIds, Boolean isCustomizable,
+                          Float itemWeight, Float itemLength, Float itemWidth, Float itemHeight, WeightUnit weightUnit,
+                          DimensionUnit dimensionUnit, Boolean nonTaxable, Long categoryId, Long taxonomyId,
+                          List<String> tags, String whoMade, Boolean isSupply, String whenMade, String recipient,
+                          String occasion, List<String> style, Integer processingMin, Integer processingMax,
+                          String featuredRank)
             throws EtsyAPIException;
 
     Listing getListing(Credentials clientCreds, Credentials accessCreds, Long listingId, ListingAssociations... associations)
@@ -94,7 +109,7 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     List<? extends ListingVariationImage> updateVariationImages(Credentials clientCreds, Credentials accessCreds, Long listingId,
-                               List<? extends ListingVariationImage> variationImages)
+                                                                List<? extends ListingVariationImage> variationImages)
             throws EtsyAPIException;
 
     Cart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
@@ -106,7 +121,7 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     Cart getUserCart(Credentials clientCreds, Credentials accessCreds, String userId, Long cartId)
-            throws  EtsyAPIException;
+            throws EtsyAPIException;
 
     Cart addToCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId, Integer quantity)
             throws EtsyAPIException;

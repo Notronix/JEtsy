@@ -231,10 +231,40 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyListing createListing(Credentials clientCreds, Credentials accessCreds, Listing listing) throws EtsyAPIException {
+    public EtsyListing createListing(Credentials clientCreds, Credentials accessCreds, Integer quantity, String title,
+                                 String description, Float price, List<String> materials, Long shippingTemplateId,
+                                 Long shopSectionId, List<Long> imageIds, Boolean isCustomizable, Boolean nonTaxable,
+                                 ListingState state, Integer processingMin, Integer processingMax, Long categoryId,
+                                 Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
+                                 String recipient, String occasion, List<String> style) throws EtsyAPIException {
         return execute(new CreateListingMethod()
-                .withListing(requireNonNull(listing))
-                .withClientCredentials(clientCreds)
+                .withQuantity(quantity).withTitle(title).withDescription(description).withPrice(price)
+                .withMaterials(materials).withShippingTemplateId(shippingTemplateId).withShopSectionId(shopSectionId)
+                .withImageIds(imageIds).withIsCustomizable(isCustomizable).withNonTaxable(nonTaxable).withState(state)
+                .withProcessingMin(processingMin).withProcessingMax(processingMax).withCategoryId(categoryId)
+                .withTaxonomyId(taxonomyId).withTags(tags).withWhoMade(whoMade).withIsSupply(isSupply).withWhenMade(whenMade)
+                .withRecipient(recipient).withOccasion(occasion).withStyle(style)
+                .withClientCredentials(clientCreds).withAccessCredentials(accessCreds));
+    }
+
+    @Override
+    public EtsyListing updateListing(Credentials clientCreds, Credentials accessCreds, Long listingId, String title,
+                                 String description, List<String> materials, Boolean renew, Long shippingTemplateId,
+                                 Long shopSectionId, ListingState state, List<Long> imageIds, Boolean isCustomizable,
+                                 Float itemWeight, Float itemLength, Float itemWidth, Float itemHeight,
+                                 WeightUnit weightUnit, DimensionUnit dimensionUnit, Boolean nonTaxable, Long categoryId,
+                                 Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
+                                 String recipient, String occasion, List<String> style, Integer processingMin,
+                                 Integer processingMax, String featuredRank) throws EtsyAPIException {
+        return execute(new UpdateListingMethod()
+                .withListingId(listingId).withTitle(title).withDescription(description).withMaterials(materials)
+                .withRenew(renew).withShippingTemplateId(shippingTemplateId).withShopSectionId(shopSectionId)
+                .withState(state).withImageIds(imageIds).withIsCustomizable(isCustomizable).withItemWeight(itemWeight)
+                .withItemLength(itemLength).withItemWidth(itemWidth).withItemHeight(itemHeight).withWeightUnit(weightUnit)
+                .withDimensionUnit(dimensionUnit).withNonTaxable(nonTaxable).withCategoryId(categoryId)
+                .withTaxonomyId(taxonomyId).withTags(tags).withWhoMade(whoMade).withIsSupply(isSupply).withWhenMade(whenMade)
+                .withRecipient(recipient).withOccasion(occasion).withStyle(style).withProcessingMin(processingMin)
+                .withProcessingMax(processingMax).withFeaturedRank(featuredRank).withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
 
