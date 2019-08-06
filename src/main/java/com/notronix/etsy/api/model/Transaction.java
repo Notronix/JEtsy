@@ -1,5 +1,6 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface Transaction
@@ -9,9 +10,9 @@ public interface Transaction
     String getDescription();
     Long getSellerUserId();
     Long getBuyerUserId();
-    Float getCreationTsz();
-    Float getPaidTsz();
-    Float getShippedTsz();
+    Instant getCreationTsz();
+    Instant getPaidTsz();
+    Instant getShippedTsz();
     Float getPrice();
     String getCurrencyCode();
     Integer getQuantity();

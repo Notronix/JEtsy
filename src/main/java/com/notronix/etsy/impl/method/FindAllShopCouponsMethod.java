@@ -6,13 +6,15 @@ import com.notronix.etsy.impl.model.EtsyCoupon;
 
 import java.util.List;
 
+import static java.util.Objects.requireNonNull;
+
 public class FindAllShopCouponsMethod extends AbstractEtsyMethod<List<EtsyCoupon>>
 {
-    private Long shopId;
+    private String shopIdOrName;
 
     @Override
     String getURI() {
-        return "/shops/" + shopId + "/coupons";
+        return "/shops/" + requireNonNull(shopIdOrName) + "/coupons";
     }
 
     @Override
@@ -28,16 +30,16 @@ public class FindAllShopCouponsMethod extends AbstractEtsyMethod<List<EtsyCoupon
         return response.getResults();
     }
 
-    public Long getShopId() {
-        return shopId;
+    public String getShopIdOrName() {
+        return shopIdOrName;
     }
 
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
+    public void setShopIdOrName(String shopIdOrName) {
+        this.shopIdOrName = shopIdOrName;
     }
 
-    public FindAllShopCouponsMethod withShopId(Long shopId) {
-        this.shopId = shopId;
+    public FindAllShopCouponsMethod withShopIdOrName(String shopIdOrName) {
+        this.shopIdOrName = shopIdOrName;
         return this;
     }
 }

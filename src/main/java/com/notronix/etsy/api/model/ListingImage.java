@@ -1,5 +1,7 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
+
 public interface ListingImage
 {
     Long getListingImageId();
@@ -11,7 +13,7 @@ public interface ListingImage
     Integer getSaturation();
     Integer getBrightness();
     Boolean getBlackAndWhite();
-    Float getCreationTsz();
+    Instant getCreationTsz();
     Long getListingId();
     Integer getRank();
     String getUrl75x75();

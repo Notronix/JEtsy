@@ -3,6 +3,8 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.ListingImage;
 
+import java.time.Instant;
+
 public class EtsyListingImage implements ListingImage
 {
     @SerializedName(value = "listing_image_id")
@@ -22,7 +24,7 @@ public class EtsyListingImage implements ListingImage
     private Boolean isBlackAndWhite;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "listing_id")
     private Long listingId;
@@ -128,11 +130,11 @@ public class EtsyListingImage implements ListingImage
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 

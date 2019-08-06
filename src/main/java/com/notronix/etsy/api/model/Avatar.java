@@ -1,5 +1,7 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
+
 public interface Avatar
 {
     Long getAvatarId();
@@ -11,6 +13,6 @@ public interface Avatar
     Integer getSaturation();
     Integer getBrightness();
     Boolean getBlackAndWhite();
-    Float getCreationTsz();
+    Instant getCreationTsz();
     Long getUserId();
 }

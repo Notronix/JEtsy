@@ -3,6 +3,7 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.*;
 
+import java.time.Instant;
 import java.util.List;
 
 public class EtsyListing implements Listing
@@ -10,7 +11,7 @@ public class EtsyListing implements Listing
     @SerializedName(value = "listing_id")
     private Long listingId;
 
-    private String state;
+    private ListingState state;
 
     @SerializedName(value = "user_id")
     private Long userId;
@@ -22,16 +23,16 @@ public class EtsyListing implements Listing
     private String description;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "ending_tsz")
-    private Float endingTsz;
+    private Instant endingTsz;
 
     @SerializedName(value = "original_creation_tsz")
-    private Float originalCreationTsz;
+    private Instant originalCreationTsz;
 
     @SerializedName(value = "last_modified_tsz")
-    private Float lastModifiedTsz;
+    private Instant lastModifiedTsz;
 
     private Float price;
 
@@ -65,7 +66,7 @@ public class EtsyListing implements Listing
     private Object featuredRank;
 
     @SerializedName(value = "state_tsz")
-    private Float stateTsz;
+    private Instant stateTsz;
     private String url;
     private Long views;
 
@@ -79,10 +80,10 @@ public class EtsyListing implements Listing
     private Long shippingProfileId;
 
     @SerializedName(value = "processing_min")
-    private Long processingMin;
+    private Integer processingMin;
 
     @SerializedName(value = "processing_max")
-    private Long processingMax;
+    private Integer processingMax;
 
     @SerializedName(value = "who_made")
     private String whoMade;
@@ -94,19 +95,19 @@ public class EtsyListing implements Listing
     private String whenMade;
 
     @SerializedName(value = "item_weight")
-    private Double itemWeight;
+    private Float itemWeight;
 
     @SerializedName(value = "item_weight_unit")
     private WeightUnit itemWeightUnit;
 
     @SerializedName(value = "item_length")
-    private Double itemLength;
+    private Float itemLength;
 
     @SerializedName(value = "item_width")
-    private Double itemWidth;
+    private Float itemWidth;
 
     @SerializedName(value = "item_height")
-    private Double itemHeight;
+    private Float itemHeight;
 
     @SerializedName(value = "item_dimensions_unit")
     private DimensionUnit itemDimensionsUnit;
@@ -164,11 +165,11 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public String getState() {
+    public ListingState getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(ListingState state) {
         this.state = state;
     }
 
@@ -209,38 +210,38 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 
     @Override
-    public Float getEndingTsz() {
+    public Instant getEndingTsz() {
         return endingTsz;
     }
 
-    public void setEndingTsz(Float endingTsz) {
+    public void setEndingTsz(Instant endingTsz) {
         this.endingTsz = endingTsz;
     }
 
     @Override
-    public Float getOriginalCreationTsz() {
+    public Instant getOriginalCreationTsz() {
         return originalCreationTsz;
     }
 
-    public void setOriginalCreationTsz(Float originalCreationTsz) {
+    public void setOriginalCreationTsz(Instant originalCreationTsz) {
         this.originalCreationTsz = originalCreationTsz;
     }
 
     @Override
-    public Float getLastModifiedTsz() {
+    public Instant getLastModifiedTsz() {
         return lastModifiedTsz;
     }
 
-    public void setLastModifiedTsz(Float lastModifiedTsz) {
+    public void setLastModifiedTsz(Instant lastModifiedTsz) {
         this.lastModifiedTsz = lastModifiedTsz;
     }
 
@@ -362,11 +363,11 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public Float getStateTsz() {
+    public Instant getStateTsz() {
         return stateTsz;
     }
 
-    public void setStateTsz(Float stateTsz) {
+    public void setStateTsz(Instant stateTsz) {
         this.stateTsz = stateTsz;
     }
 
@@ -416,20 +417,20 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public Long getProcessingMin() {
+    public Integer getProcessingMin() {
         return processingMin;
     }
 
-    public void setProcessingMin(Long processingMin) {
+    public void setProcessingMin(Integer processingMin) {
         this.processingMin = processingMin;
     }
 
     @Override
-    public Long getProcessingMax() {
+    public Integer getProcessingMax() {
         return processingMax;
     }
 
-    public void setProcessingMax(Long processingMax) {
+    public void setProcessingMax(Integer processingMax) {
         this.processingMax = processingMax;
     }
 
@@ -461,11 +462,11 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public Double getItemWeight() {
+    public Float getItemWeight() {
         return itemWeight;
     }
 
-    public void setItemWeight(Double itemWeight) {
+    public void setItemWeight(Float itemWeight) {
         this.itemWeight = itemWeight;
     }
 
@@ -479,29 +480,29 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public Double getItemLength() {
+    public Float getItemLength() {
         return itemLength;
     }
 
-    public void setItemLength(Double itemLength) {
+    public void setItemLength(Float itemLength) {
         this.itemLength = itemLength;
     }
 
     @Override
-    public Double getItemWidth() {
+    public Float getItemWidth() {
         return itemWidth;
     }
 
-    public void setItemWidth(Double itemWidth) {
+    public void setItemWidth(Float itemWidth) {
         this.itemWidth = itemWidth;
     }
 
     @Override
-    public Double getItemHeight() {
+    public Float getItemHeight() {
         return itemHeight;
     }
 
-    public void setItemHeight(Double itemHeight) {
+    public void setItemHeight(Float itemHeight) {
         this.itemHeight = itemHeight;
     }
 

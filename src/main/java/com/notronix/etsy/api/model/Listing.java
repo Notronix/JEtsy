@@ -1,19 +1,20 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface Listing
 {
     Long getListingId();
-    String getState();
+    ListingState getState();
     Long getUserId();
     Long getCategoryId();
     String getTitle();
     String getDescription();
-    Float getCreationTsz();
-    Float getEndingTsz();
-    Float getOriginalCreationTsz();
-    Float getLastModifiedTsz();
+    Instant getCreationTsz();
+    Instant getEndingTsz();
+    Instant getOriginalCreationTsz();
+    Instant getLastModifiedTsz();
     Float getPrice();
     String getCurrencyCode();
     Integer getQuantity();
@@ -27,22 +28,22 @@ public interface Listing
     List<String> getMaterials();
     Long getShopSectionId();
     Object getFeaturedRank();
-    Float getStateTsz();
+    Instant getStateTsz();
     String getUrl();
     Long getViews();
     Long getNumFavorers();
     Long getShippingTemplateId();
     Long getShippingProfileId();
-    Long getProcessingMin();
-    Long getProcessingMax();
+    Integer getProcessingMin();
+    Integer getProcessingMax();
     String getWhoMade();
     Boolean getIsSupply();
     String getWhenMade();
-    Double getItemWeight();
+    Float getItemWeight();
     WeightUnit getItemWeightUnit();
-    Double getItemLength();
-    Double getItemWidth();
-    Double getItemHeight();
+    Float getItemLength();
+    Float getItemWidth();
+    Float getItemHeight();
     DimensionUnit getItemDimensionsUnit();
     Boolean getIsPrivate();
     String getRecipient();

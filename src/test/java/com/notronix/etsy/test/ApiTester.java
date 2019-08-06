@@ -4,20 +4,14 @@ import com.notronix.etsy.api.EtsyAPIException;
 import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.EtsyDataService;
 
-import java.io.File;
+import static com.notronix.etsy.api.EtsyAPI.__SELF__;
 
 public class ApiTester
 {
     private Object test(EtsyDataService eds, Credentials clientCreds, Credentials accessCreds)
             throws EtsyAPIException {
 
-        Long listingId = 0L; // your listing id
-        Integer rank = 1;
-        Boolean overwrite = true;
-        Boolean watermarked = false;
-        File image = null; // get your image as a java.io.File object
-
-        return eds.uploadListingImage(clientCreds, accessCreds, listingId, image, rank, overwrite, watermarked);
+        return eds.findAllShopCoupons(clientCreds, accessCreds, __SELF__);
     }
 
     /**

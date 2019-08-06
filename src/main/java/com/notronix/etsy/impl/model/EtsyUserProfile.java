@@ -3,6 +3,8 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.UserProfile;
 
+import java.time.Instant;
+
 public class EtsyUserProfile implements UserProfile
 {
     @SerializedName(value = "user_id")
@@ -23,7 +25,7 @@ public class EtsyUserProfile implements UserProfile
     private String birthYear;
 
     @SerializedName(value = "join_tsz")
-    private Float joinTsz;
+    private Instant joinTsz;
     private String materials;
 
     @SerializedName(value = "country_id")
@@ -118,11 +120,11 @@ public class EtsyUserProfile implements UserProfile
     }
 
     @Override
-    public Float getJoinTsz() {
+    public Instant getJoinTsz() {
         return joinTsz;
     }
 
-    public void setJoinTsz(Float joinTsz) {
+    public void setJoinTsz(Instant joinTsz) {
         this.joinTsz = joinTsz;
     }
 

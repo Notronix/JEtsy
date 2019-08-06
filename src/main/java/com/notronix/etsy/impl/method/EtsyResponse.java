@@ -1,8 +1,10 @@
 package com.notronix.etsy.impl.method;
 
+import com.notronix.etsy.api.method.Method;
 import com.notronix.etsy.api.method.Response;
 
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class EtsyResponse<T> implements Response<T>
 {
@@ -11,6 +13,7 @@ public class EtsyResponse<T> implements Response<T>
     private Map<String, Object> params;
     private String type;
     private PaginationImpl pagination;
+    private Consumer<Method<? extends Response<T>>> nextBuilder;
 
     @Override
     public Integer getCount() {
@@ -55,5 +58,14 @@ public class EtsyResponse<T> implements Response<T>
 
     public void setPagination(PaginationImpl pagination) {
         this.pagination = pagination;
+    }
+
+    @Override
+    public Consumer<? super Method<? extends Response<T>>> getNextBuilder() {
+        return nextBuilder;
+    }
+
+    public void setNextBuilder(Consumer<Method<? extends Response<T>>> nextBuilder) {
+        this.nextBuilder = nextBuilder;
     }
 }

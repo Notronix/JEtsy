@@ -10,38 +10,39 @@ import java.util.List;
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static com.notronix.etsy.impl.method.MethodUtils.safeList;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
-public class GetShopMethod extends AbstractEtsyMethod<EtsyShop>
+public class GetShopMethod extends AbstractEtsyMethod<List<EtsyShop>>
 {
-    private Long shopId;
+    private List<String> shopIdsOrNames;
     private ShopAssociations[] associations;
 
     @Override
     String getURI() {
-        String uri = "/shops/" + requireNonNull(shopId);
+        String uri = "/shops/" + requireNonNull(shopIdsOrNames).stream().distinct().collect(joining(","));
         uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }
 
     @Override
-    public EtsyShop getResponse(Gson gson, String jsonPayload) {
+    public List<EtsyShop> getResponse(Gson gson, String jsonPayload) {
         EtsyResponse<List<EtsyShop>> response
                 = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyShop>>>(){}.getType());
 
-        return response.getResults().stream().findAny().orElse(null);
+        return response.getResults();
     }
 
-    public Long getShopId() {
-        return shopId;
+    public List<String> getShopIdsOrNames() {
+        return shopIdsOrNames;
     }
 
-    public void setShopId(Long shopId) {
-        this.shopId = shopId;
+    public void setShopIdsOrNames(List<String> shopIdsOrNames) {
+        this.shopIdsOrNames = shopIdsOrNames;
     }
 
-    public GetShopMethod withShopId(Long shopId) {
-        this.shopId = shopId;
+    public GetShopMethod withShopIdsOrNames(List<String> shopIdsOrNames) {
+        this.shopIdsOrNames = shopIdsOrNames;
         return this;
     }
 

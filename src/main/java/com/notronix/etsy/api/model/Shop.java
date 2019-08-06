@@ -1,13 +1,14 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface Shop
 {
     Long getShopId();
     String getShopName();
-    Long getUserId();    
-    Float getCreationTsz();
+    Long getUserId();
+    Instant getCreationTsz();
     String getTitle();
     String getAnnouncement();
     String getCurrencyCode();
@@ -15,7 +16,7 @@ public interface Shop
     String getVacationMessage();
     String getSaleMessage();
     String getDigitalSaleMessage();
-    Float getLastUpdatedTsz();
+    Instant getLastUpdatedTsz();
     Integer getListingActiveCount();
     Integer getDigitalListingCount();
     String getLoginName();
@@ -28,7 +29,7 @@ public interface Shop
     String getPolicyRefunds();
     String getPolicyAdditional();
     String getPolicySellerInfo();
-    Float getPolicyUpdatedTsz();
+    Instant getPolicyUpdatedTsz();
     Boolean getPolicyHasPrivateReceiptInfo();
     String getVacationAutoReply();
     String getGaCode();

@@ -9,38 +9,41 @@ import java.util.List;
 
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static com.notronix.etsy.impl.method.MethodUtils.safeList;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
-public class GetListingMethod extends AbstractEtsyMethod<EtsyListing>
+public class GetListingMethod extends AbstractEtsyMethod<List<EtsyListing>>
 {
-    private Long listingId;
+    private List<Long> listingIds;
     private ListingAssociations[] associations;
 
     @Override
     public String getURI() {
-        String uri = "/listings/" + listingId;
+        String uri = "/listings/"
+                + requireNonNull(listingIds).stream().map(Object::toString).distinct().collect(joining(","));
         uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }
 
     @Override
-    public EtsyListing getResponse(Gson gson, String jsonPayload) {
-        EtsyResponse<List<EtsyListing>> response =
-                gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyListing>>>(){}.getType());
+    public List<EtsyListing> getResponse(Gson gson, String jsonPayload) {
+        EtsyResponse<List<EtsyListing>> response
+                = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyListing>>>(){}.getType());
 
-        return response.getResults().stream().findAny().orElse(null);
+        return response.getResults();
     }
 
-    public Long getListingId() {
-        return listingId;
+    public List<Long> getListingIds() {
+        return listingIds;
     }
 
-    public void setListingId(Long listingId) {
-        this.listingId = listingId;
+    public void setListingIds(List<Long> listingIds) {
+        this.listingIds = listingIds;
     }
 
-    public GetListingMethod withListingId(Long listingId) {
-        this.listingId = listingId;
+    public GetListingMethod withListingIds(List<Long> listingIds) {
+        this.listingIds = listingIds;
         return this;
     }
 

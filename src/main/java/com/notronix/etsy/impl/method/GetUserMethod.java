@@ -11,43 +11,44 @@ import static com.notronix.etsy.api.EtsyAPI.__SELF__;
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static com.notronix.etsy.impl.method.MethodUtils.safeList;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
-public class GetUserMethod extends AbstractEtsyMethod<EtsyUser>
+public class GetUserMethod extends AbstractEtsyMethod<List<EtsyUser>>
 {
-    private String userId;
+    private List<String> userIdsOrNames;
     private UserAssociations[] associations;
 
     @Override
     public boolean requiresOAuth() {
-        return __SELF__.equals(userId);
+        return requireNonNull(userIdsOrNames).stream().anyMatch(__SELF__::equals);
     }
 
     @Override
     public String getURI() {
-        String uri = "/users/" + requireNonNull(userId);
+        String uri = "/users/" + requireNonNull(userIdsOrNames).stream().distinct().collect(joining(","));
         uri = addIfProvided(uri, "includes", safeList(associations), ASSOCIATIONS_CONVERTER);
 
         return uri;
     }
 
     @Override
-    public EtsyUser getResponse(Gson gson, String jsonPayload) {
+    public List<EtsyUser> getResponse(Gson gson, String jsonPayload) {
         EtsyResponse<List<EtsyUser>> response
                 = gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyUser>>>(){}.getType());
 
-        return response.getResults().stream().findAny().orElse(null);
+        return response.getResults();
     }
 
-    public String getUserId() {
-        return userId;
+    public List<String> getUserIdsOrNames() {
+        return userIdsOrNames;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserIdsOrNames(List<String> userIdsOrNames) {
+        this.userIdsOrNames = userIdsOrNames;
     }
 
-    public GetUserMethod withUserId(String userId) {
-        this.userId = userId;
+    public GetUserMethod withUserIdsOrNames(List<String> userIdsOrNames) {
+        this.userIdsOrNames = userIdsOrNames;
         return this;
     }
 

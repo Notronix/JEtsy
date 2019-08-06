@@ -24,4 +24,13 @@ public enum ListingState
     public String apiValue() {
         return apiValue;
     }
+
+    public static ListingState forValue(String name) {
+        try {
+            return ListingState.valueOf(name);
+        }
+        catch (Exception ex) {
+            return ListingState.valueOf("_" + name);
+        }
+    }
 }

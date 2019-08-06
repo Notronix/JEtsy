@@ -10,17 +10,16 @@ import com.google.gson.GsonBuilder;
 import com.notronix.etsy.api.EtsyAPI;
 import com.notronix.etsy.api.EtsyAPIException;
 import com.notronix.etsy.api.authentication.Credentials;
+import com.notronix.etsy.api.method.Method;
 import com.notronix.etsy.api.model.*;
 import com.notronix.etsy.impl.authentication.EtsyOAuthAccessTokenRequest;
 import com.notronix.etsy.impl.authentication.EtsyOAuthTempCredentialsRequest;
-import com.notronix.etsy.impl.json.EtsyBooleanAdapter;
-import com.notronix.etsy.impl.json.EtsyMoneyAdapter;
-import com.notronix.etsy.impl.json.EtsyPaymentInfoAdapter;
-import com.notronix.etsy.impl.json.EtsyRelatedLinksAdapter;
+import com.notronix.etsy.impl.json.*;
 import com.notronix.etsy.impl.method.*;
 import com.notronix.etsy.impl.model.*;
 
 import java.io.File;
+import java.time.Instant;
 import java.util.List;
 import java.util.Set;
 
@@ -92,8 +91,10 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyDataType describeWhenMadeEnum(Credentials clientCreds) throws EtsyAPIException {
-        return execute(new DescribeWhenMadeEnumMethod().withClientCredentials(clientCreds));
+    public EtsyDataType describeWhenMadeEnum(Credentials clientCreds, Boolean includeFormatted)
+            throws EtsyAPIException {
+        return execute(new DescribeWhenMadeEnumMethod().withIncludeFormatted(includeFormatted)
+                .withClientCredentials(clientCreds));
     }
 
     @Override
@@ -117,10 +118,10 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyUser getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
-            throws EtsyAPIException {
+    public List<EtsyUser> getUser(Credentials clientCreds, Credentials accessCreds, List<String> userIdsOrNames,
+                                  UserAssociations... associations) throws EtsyAPIException {
         return execute(new GetUserMethod()
-                .withUserId(userId)
+                .withUserIdsOrNames(userIdsOrNames)
                 .withAssociations(associations)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
@@ -154,21 +155,30 @@ public class EtsyDataService implements EtsyAPI
 
     @Override
     public EtsyResponse<List<EtsyShop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds, String userId,
-                                                         ShopAssociations... associations)
+                                                         Integer limit, Integer offset, ShopAssociations... associations)
             throws EtsyAPIException {
         return execute(new FindAllUserShopsMethod()
                 .withUserId(userId)
+                .withLimit(limit)
+                .withOffset(offset)
                 .withAssociations(associations)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
 
+    public EtsyResponse<List<EtsyShop>> findAllUserShopsNext(Credentials clientCreds, Credentials accessCreds,
+                                                             EtsyResponse<List<EtsyShop>> pager)
+            throws EtsyAPIException {
+        return execute(requireNonNull(pager).buildNextPage(new FindAllUserShopsMethod()
+                .withClientCredentials(clientCreds).withAccessCredentials(accessCreds)));
+    }
+
     @Override
-    public EtsyShop getShop(Credentials clientCreds, Credentials accessCreds, Long shopId,
+    public List<EtsyShop> getShop(Credentials clientCreds, Credentials accessCreds, List<String> shopIdsOrNames,
                             ShopAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetShopMethod()
-                .withShopId(shopId)
+                .withShopIdsOrNames(shopIdsOrNames)
                 .withAssociations(associations)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
@@ -201,10 +211,10 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyListing getListing(Credentials clientCreds, Credentials accessCreds, Long listingId,
-                                  ListingAssociations... associations) throws EtsyAPIException {
+    public List<EtsyListing> getListing(Credentials clientCreds, Credentials accessCreds, List<Long> listingIds,
+                                        ListingAssociations... associations) throws EtsyAPIException {
         return execute(new GetListingMethod()
-                .withListingId(requireNonNull(listingId))
+                .withListingIds(requireNonNull(listingIds))
                 .withAssociations(associations)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
@@ -232,11 +242,11 @@ public class EtsyDataService implements EtsyAPI
 
     @Override
     public EtsyListing createListing(Credentials clientCreds, Credentials accessCreds, Integer quantity, String title,
-                                 String description, Float price, List<String> materials, Long shippingTemplateId,
-                                 Long shopSectionId, List<Long> imageIds, Boolean isCustomizable, Boolean nonTaxable,
-                                 ListingState state, Integer processingMin, Integer processingMax, Long categoryId,
-                                 Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
-                                 String recipient, String occasion, List<String> style) throws EtsyAPIException {
+                                     String description, Float price, List<String> materials, Long shippingTemplateId,
+                                     Long shopSectionId, List<Long> imageIds, Boolean isCustomizable, Boolean nonTaxable,
+                                     ListingState state, Integer processingMin, Integer processingMax, Long categoryId,
+                                     Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
+                                     String recipient, String occasion, List<String> style) throws EtsyAPIException {
         return execute(new CreateListingMethod()
                 .withQuantity(quantity).withTitle(title).withDescription(description).withPrice(price)
                 .withMaterials(materials).withShippingTemplateId(shippingTemplateId).withShopSectionId(shopSectionId)
@@ -249,13 +259,13 @@ public class EtsyDataService implements EtsyAPI
 
     @Override
     public EtsyListing updateListing(Credentials clientCreds, Credentials accessCreds, Long listingId, String title,
-                                 String description, List<String> materials, Boolean renew, Long shippingTemplateId,
-                                 Long shopSectionId, ListingState state, List<Long> imageIds, Boolean isCustomizable,
-                                 Float itemWeight, Float itemLength, Float itemWidth, Float itemHeight,
-                                 WeightUnit weightUnit, DimensionUnit dimensionUnit, Boolean nonTaxable, Long categoryId,
-                                 Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
-                                 String recipient, String occasion, List<String> style, Integer processingMin,
-                                 Integer processingMax, String featuredRank) throws EtsyAPIException {
+                                     String description, List<String> materials, Boolean renew, Long shippingTemplateId,
+                                     Long shopSectionId, ListingState state, List<Long> imageIds, Boolean isCustomizable,
+                                     Float itemWeight, Float itemLength, Float itemWidth, Float itemHeight,
+                                     WeightUnit weightUnit, DimensionUnit dimensionUnit, Boolean nonTaxable, Long categoryId,
+                                     Long taxonomyId, List<String> tags, String whoMade, Boolean isSupply, String whenMade,
+                                     String recipient, String occasion, List<String> style, Integer processingMin,
+                                     Integer processingMax, String featuredRank) throws EtsyAPIException {
         return execute(new UpdateListingMethod()
                 .withListingId(listingId).withTitle(title).withDescription(description).withMaterials(materials)
                 .withRenew(renew).withShippingTemplateId(shippingTemplateId).withShopSectionId(shopSectionId)
@@ -315,10 +325,12 @@ public class EtsyDataService implements EtsyAPI
 
     @Override
     public EtsyCart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
-                                            CartAssociations... associations) throws EtsyAPIException {
+                                            Integer quantity, CartAssociations... associations)
+            throws EtsyAPIException {
         return execute(new CreateSingleListingCartMethod()
                 .withUserId(userId)
                 .withListingId(listingId)
+                .withQuantity(quantity)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
@@ -354,15 +366,15 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public List<EtsyCoupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, Long shopId)
+    public List<EtsyCoupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, String shopIdOrName)
             throws EtsyAPIException {
         return execute(new FindAllShopCouponsMethod()
-                .withShopId(shopId)
+                .withShopIdOrName(shopIdOrName)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
 
-    private <T> T execute(EtsyMethod<T> method) throws EtsyAPIException {
+    private <T> T execute(Method<T> method) throws EtsyAPIException {
         HttpRequest request = configureRequest(method);
         try {
             int statusCode;
@@ -393,7 +405,7 @@ public class EtsyDataService implements EtsyAPI
         }
     }
 
-    private HttpRequest configureRequest(EtsyMethod method)
+    private HttpRequest configureRequest(Method method)
             throws EtsyAPIException {
         Credentials clientCreds = requireNonNull(method.getClientCredentials());
         Credentials accessCreds = (method.requiresOAuth()
@@ -476,6 +488,7 @@ public class EtsyDataService implements EtsyAPI
                     .registerTypeAdapter(EtsyRelatedLinks.class, new EtsyRelatedLinksAdapter())
                     .registerTypeAdapter(Boolean.class, new EtsyBooleanAdapter())
                     .registerTypeAdapter(EtsyMoney.class, new EtsyMoneyAdapter())
+                    .registerTypeAdapter(ListingState.class, new ListingStateAdapter().nullSafe())
                     .create();
         }
 
@@ -496,6 +509,8 @@ public class EtsyDataService implements EtsyAPI
                     .registerTypeAdapter(EtsyPaymentInfo.class, new EtsyPaymentInfoAdapter())
                     .registerTypeAdapter(EtsyRelatedLinks.class, new EtsyRelatedLinksAdapter())
                     .registerTypeAdapter(Boolean.class, new EtsyBooleanAdapter())
+                    .registerTypeAdapter(Instant.class, new InstantAdapter().nullSafe())
+                    .registerTypeAdapter(ListingState.class, new ListingStateAdapter().nullSafe())
                     .create();
         }
 

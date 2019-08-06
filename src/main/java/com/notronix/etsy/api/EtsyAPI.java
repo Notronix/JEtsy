@@ -18,19 +18,19 @@ public interface EtsyAPI
     Credentials getAccessCredentials(Credentials clientCreds, Credentials tempCredentials, String verifier)
             throws EtsyAPIException;
 
+    List<? extends ApiMethod> getMethodTable(Credentials clientCreds)
+            throws EtsyAPIException;
+
     DataType describeOccasionEnum(Credentials clientCreds)
             throws EtsyAPIException;
 
     DataType describeRecipientEnum(Credentials clientCreds)
             throws EtsyAPIException;
 
-    DataType describeWhenMadeEnum(Credentials clientCreds)
+    DataType describeWhenMadeEnum(Credentials clientCreds, Boolean includeFormatted)
             throws EtsyAPIException;
 
     DataType describeWhoMadeEnum(Credentials clientCreds)
-            throws EtsyAPIException;
-
-    List<? extends ApiMethod> getMethodTable(Credentials clientCreds)
             throws EtsyAPIException;
 
     List<? extends Country> findAllCountry(Credentials clientCreds)
@@ -39,8 +39,8 @@ public interface EtsyAPI
     List<? extends Style> findSuggestedStyles(Credentials clientCreds)
             throws EtsyAPIException;
 
-    User getUser(Credentials clientCreds, Credentials accessCreds, String userId, UserAssociations... associations)
-            throws EtsyAPIException;
+    List<? extends User> getUser(Credentials clientCreds, Credentials accessCreds, List<String> userIdsOrNames,
+                                 UserAssociations... associations) throws EtsyAPIException;
 
     String getAvatarImgSrc(Credentials clientCreds, Credentials accessCreds, String userId)
             throws EtsyAPIException;
@@ -52,11 +52,12 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     Response<? extends List<? extends Shop>> findAllUserShops(Credentials clientCreds, Credentials accessCreds,
-                                                              String userId, ShopAssociations... associations)
+                                                              String userId, Integer limit, Integer offset,
+                                                              ShopAssociations... associations)
             throws EtsyAPIException;
 
-    Shop getShop(Credentials clientCreds, Credentials accessCreds, Long shopId, ShopAssociations... associations)
-            throws EtsyAPIException;
+    List<? extends Shop> getShop(Credentials clientCreds, Credentials accessCreds, List<String> shopIdsOrNames,
+                                 ShopAssociations... associations) throws EtsyAPIException;
 
     Response<? extends List<? extends ShippingTemplate>> findAllUserShippingProfiles(Credentials clientCreds,
                                                                                      Credentials accessCreds,
@@ -89,7 +90,7 @@ public interface EtsyAPI
                           String featuredRank)
             throws EtsyAPIException;
 
-    Listing getListing(Credentials clientCreds, Credentials accessCreds, Long listingId, ListingAssociations... associations)
+    List<? extends Listing> getListing(Credentials clientCreds, Credentials accessCreds, List<Long> listingIds, ListingAssociations... associations)
             throws EtsyAPIException;
 
     ListingInventory getInventory(Credentials clientCreds, Credentials accessCreds, Long listingId, Boolean writeMissingInventory)
@@ -113,7 +114,7 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     Cart createSingleListingCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId,
-                                 CartAssociations... associations)
+                                 Integer quantity, CartAssociations... associations)
             throws EtsyAPIException;
 
     Response<? extends List<? extends Cart>> getAllUserCarts(Credentials clientCreds, Credentials accessCreds,
@@ -126,6 +127,6 @@ public interface EtsyAPI
     Cart addToCart(Credentials clientCreds, Credentials accessCreds, String userId, Long listingId, Integer quantity)
             throws EtsyAPIException;
 
-    List<? extends Coupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, Long shopId)
+    List<? extends Coupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, String shopIdOrName)
             throws EtsyAPIException;
 }

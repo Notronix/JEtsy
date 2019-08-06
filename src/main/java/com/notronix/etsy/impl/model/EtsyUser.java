@@ -3,6 +3,7 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.User;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class EtsyUser implements User
     private String primaryEmail;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "user_pub_key")
     private Map<String, Object> userPubKey;
@@ -69,11 +70,11 @@ public class EtsyUser implements User
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 

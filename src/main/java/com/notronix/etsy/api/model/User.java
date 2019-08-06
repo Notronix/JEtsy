@@ -1,5 +1,6 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -8,7 +9,7 @@ public interface User
     Long getUserId();
     String getLoginName();
     String getPrimaryEmail();
-    Float getCreationTsz();
+    Instant getCreationTsz();
     Map<String, Object> getUserPubKey();
     Long getReferredByUserId();
     FeedbackInfo getFeedbackInfo();

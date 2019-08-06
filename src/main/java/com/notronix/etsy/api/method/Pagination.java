@@ -7,4 +7,5 @@ public interface Pagination
     Integer getNextOffset();
     Integer getEffectivePage();
     Integer getNextPage();
+    boolean hasNextPage();
 }

@@ -1,5 +1,7 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
+
 public interface UserProfile
 {
     Long getUserId();
@@ -9,7 +11,7 @@ public interface UserProfile
     String getBirthMonth();
     String getBirthDay();
     String getBirthYear();
-    Float getJoinTsz();
+    Instant getJoinTsz();
     String getMaterials();
     Long getCountryId();
     String getRegion();

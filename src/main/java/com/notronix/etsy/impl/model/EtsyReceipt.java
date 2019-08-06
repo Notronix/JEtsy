@@ -3,6 +3,7 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.Receipt;
 
+import java.time.Instant;
 import java.util.List;
 
 public class EtsyReceipt implements Receipt
@@ -23,10 +24,10 @@ public class EtsyReceipt implements Receipt
     private Long buyerUserId;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "last_modified_tsz")
-    private Float lastModifiedTsz;
+    private Instant lastModifiedTsz;
     private String name;
 
     @SerializedName(value = "first_line")
@@ -157,20 +158,20 @@ public class EtsyReceipt implements Receipt
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 
     @Override
-    public Float getLastModifiedTsz() {
+    public Instant getLastModifiedTsz() {
         return lastModifiedTsz;
     }
 
-    public void setLastModifiedTsz(Float lastModifiedTsz) {
+    public void setLastModifiedTsz(Instant lastModifiedTsz) {
         this.lastModifiedTsz = lastModifiedTsz;
     }
 

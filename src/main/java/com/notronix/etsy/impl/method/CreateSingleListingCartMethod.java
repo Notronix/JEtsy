@@ -19,6 +19,7 @@ public class CreateSingleListingCartMethod extends AbstractEtsyMethod<EtsyCart>
 {
     private String userId;
     private Long listingId;
+    private Integer quantity;
     private CartAssociations[] associations;
 
     @Override
@@ -43,6 +44,7 @@ public class CreateSingleListingCartMethod extends AbstractEtsyMethod<EtsyCart>
     public HttpContent getContent(Gson gson) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("listing_id", requireNonNull(listingId));
+        putIfProvided(parameters, "quantity", quantity);
 
         return new UrlEncodedContent(parameters);
     }
@@ -78,6 +80,19 @@ public class CreateSingleListingCartMethod extends AbstractEtsyMethod<EtsyCart>
 
     public CreateSingleListingCartMethod withListingId(Long listingId) {
         this.listingId = listingId;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public CreateSingleListingCartMethod withQuantity(Integer quantity) {
+        this.quantity = quantity;
         return this;
     }
 

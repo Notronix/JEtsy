@@ -1,5 +1,6 @@
 package com.notronix.etsy.api.model;
 
+import java.time.Instant;
 import java.util.List;
 
 public interface Receipt
@@ -9,8 +10,8 @@ public interface Receipt
     Long getOrderId();
     Long getSellerUserId();
     Long getBuyerUserId();
-    Float getCreationTsz();
-    Float getLastModifiedTsz();
+    Instant getCreationTsz();
+    Instant getLastModifiedTsz();
     String getName();
     String getFirstLine();
     String getSecondLine();

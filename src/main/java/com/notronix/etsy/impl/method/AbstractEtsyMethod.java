@@ -1,9 +1,11 @@
 package com.notronix.etsy.impl.method;
 
+import com.google.api.client.http.EmptyContent;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpMethods;
 import com.google.gson.Gson;
 import com.notronix.etsy.api.authentication.Credentials;
+import com.notronix.etsy.api.method.Method;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +15,7 @@ import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.join;
 
-public abstract class AbstractEtsyMethod<Result> implements EtsyMethod<Result>
+public abstract class AbstractEtsyMethod<Result> implements Method<Result>
 {
     private static final String API_URL_BASE = "https://openapi.etsy.com/v2";
 
@@ -44,7 +46,7 @@ public abstract class AbstractEtsyMethod<Result> implements EtsyMethod<Result>
 
     @Override
     public HttpContent getContent(Gson gson) {
-        return null;
+        return new EmptyContent();
     }
 
     @Override

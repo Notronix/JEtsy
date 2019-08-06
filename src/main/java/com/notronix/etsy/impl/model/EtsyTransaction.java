@@ -3,6 +3,7 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.Transaction;
 
+import java.time.Instant;
 import java.util.List;
 
 public class EtsyTransaction implements Transaction
@@ -19,13 +20,13 @@ public class EtsyTransaction implements Transaction
     private Long buyerUserId;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "paid_tsz")
-    private Float paidTsz;
+    private Instant paidTsz;
 
     @SerializedName(value = "shipped_tsz")
-    private Float shippedTsz;
+    private Instant shippedTsz;
 
     private Float price;
 
@@ -117,29 +118,29 @@ public class EtsyTransaction implements Transaction
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 
     @Override
-    public Float getPaidTsz() {
+    public Instant getPaidTsz() {
         return paidTsz;
     }
 
-    public void setPaidTsz(Float paidTsz) {
+    public void setPaidTsz(Instant paidTsz) {
         this.paidTsz = paidTsz;
     }
 
     @Override
-    public Float getShippedTsz() {
+    public Instant getShippedTsz() {
         return shippedTsz;
     }
 
-    public void setShippedTsz(Float shippedTsz) {
+    public void setShippedTsz(Instant shippedTsz) {
         this.shippedTsz = shippedTsz;
     }
 

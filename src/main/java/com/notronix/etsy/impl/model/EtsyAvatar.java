@@ -3,6 +3,8 @@ package com.notronix.etsy.impl.model;
 import com.google.gson.annotations.SerializedName;
 import com.notronix.etsy.api.model.Avatar;
 
+import java.time.Instant;
+
 public class EtsyAvatar implements Avatar
 {
     @SerializedName(value = "avatar_id")
@@ -22,7 +24,7 @@ public class EtsyAvatar implements Avatar
     private Boolean isBlackAndWhite;
 
     @SerializedName(value = "creation_tsz")
-    private Float creationTsz;
+    private Instant creationTsz;
 
     @SerializedName(value = "user_id")
     private Long userId;
@@ -109,11 +111,11 @@ public class EtsyAvatar implements Avatar
     }
 
     @Override
-    public Float getCreationTsz() {
+    public Instant getCreationTsz() {
         return creationTsz;
     }
 
-    public void setCreationTsz(Float creationTsz) {
+    public void setCreationTsz(Instant creationTsz) {
         this.creationTsz = creationTsz;
     }
 

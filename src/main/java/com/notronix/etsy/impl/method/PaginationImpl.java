@@ -64,4 +64,9 @@ public class PaginationImpl implements Pagination
     public void setNextPage(Integer nextPage) {
         this.nextPage = nextPage;
     }
+
+    @Override
+    public boolean hasNextPage() {
+        return nextPage != null && !nextPage.equals(effectivePage);
+    }
 }
