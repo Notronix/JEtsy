@@ -99,7 +99,7 @@ public interface EtsyAPI
     ListingInventory updateInventory(Credentials clientCreds, Credentials accessCreds, Long listingId, ListingInventory inventory)
             throws EtsyAPIException;
 
-    Response<? extends Listing> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
+    Response<? extends List<? extends Listing>> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
             throws EtsyAPIException;
 
     ListingImage uploadListingImage(Credentials clientCreds, Credentials accessCreds, Long listingId, File image,
@@ -128,5 +128,14 @@ public interface EtsyAPI
             throws EtsyAPIException;
 
     List<? extends Coupon> findAllShopCoupons(Credentials clientCreds, Credentials accessCreds, String shopIdOrName)
+            throws EtsyAPIException;
+
+    Response<? extends List<? extends Receipt>> findAllShopReceipts(Credentials clientCreds, Credentials accessCreds,
+                                                                    String shopIdOrName, ReceiptAssociations... associations)
+            throws EtsyAPIException;
+
+    Response<? extends List<? extends Receipt>> submitTracking(Credentials clientCreds, Credentials accessCreds,
+                                                               Long shopId, Long receiptId, String trackingCode,
+                                                               String carrierName, Boolean sendBcc)
             throws EtsyAPIException;
 }

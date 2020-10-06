@@ -1,5 +1,7 @@
 package com.notronix.etsy.test;
 
+import com.google.gson.Gson;
+import com.notronix.etsy.api.EtsyAPI;
 import com.notronix.etsy.api.EtsyAPIException;
 import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.EtsyDataService;
@@ -8,33 +10,30 @@ import static com.notronix.etsy.api.EtsyAPI.__SELF__;
 
 public class ApiTester
 {
-    private Object test(EtsyDataService eds, Credentials clientCreds, Credentials accessCreds)
-            throws EtsyAPIException {
-
-        return eds.findAllShopCoupons(clientCreds, accessCreds, __SELF__);
-    }
-
     /**
      * Test Runner
      *
-     * @param args used to supply credentials.  args must contain 4 supplied credentials as described by the code.
+     * @param args used to supply credentials.
      */
-    public static void main(String[] args) {
-        String consumerKey = args[0];
-        String consumerSecret = args[1];
-        String token = args[2];
-        String tokenSecret = args[3];
+    public static void main(String[] args) throws EtsyAPIException {
+        final String keyString = args[0];
+        final String sharedSecret = args[1];
 
-        Credentials clientCreds = Credentials.forKeyPair(consumerKey, consumerSecret);
-        Credentials accessCreds = Credentials.forKeyPair(token, tokenSecret);
+        Credentials clientCreds = Credentials.forKeyPair(keyString, sharedSecret);
 
-        try {
-            Object result = new ApiTester().test(new EtsyDataService(), clientCreds, accessCreds);
+        EtsyDataService etsyDataService = new EtsyDataService();
+        String callback = "oob";
+        Set<String> scopes = Arrays.stream(EtsyScope.values()).map(Enum::name).collect(toSet());
+        Credentials temporaryCreds = etsyDataService.getTemporaryCredentials(clientCreds, callback, scopes);
+        String loginUrl = temporaryCreds.getLoginUrl();
 
-            System.out.println("done");
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String verifier = "VerificationCodeProvidedByEtsy";
+        Credentials accessCreds = etsyDataService.getAccessCredentials(clientCreds, temporaryCreds, verifier);
+
+        List<String> userIdsOrNames = Collections.singletonList(EtsyAPI.__SELF__);
+        List<EtsyUser> users = etsyDataService.getUser(clientCreds, accessCreds, userIdsOrNames, UserAssociations.values());
+        EtsyUser authorizedEtsyAccountUser = users.get(0);
+
+        System.out.println(new Gson().toJson(authorizedEtsyAccountUser));
     }
 }

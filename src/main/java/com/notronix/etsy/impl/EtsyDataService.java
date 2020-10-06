@@ -25,7 +25,7 @@ import java.util.Set;
 
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 import static java.util.Objects.requireNonNull;
-import static jdk.nashorn.internal.objects.NativeArray.join;
+import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.http.HttpStatus.*;
 
 public class EtsyDataService implements EtsyAPI
@@ -175,7 +175,7 @@ public class EtsyDataService implements EtsyAPI
 
     @Override
     public List<EtsyShop> getShop(Credentials clientCreds, Credentials accessCreds, List<String> shopIdsOrNames,
-                            ShopAssociations... associations)
+                                  ShopAssociations... associations)
             throws EtsyAPIException {
         return execute(new GetShopMethod()
                 .withShopIdsOrNames(shopIdsOrNames)
@@ -279,7 +279,7 @@ public class EtsyDataService implements EtsyAPI
     }
 
     @Override
-    public EtsyResponse<EtsyListing> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
+    public EtsyResponse<List<EtsyListing>> findAllActiveListings(Credentials clientCreds, Credentials accessCreds, Integer limit, Integer offset)
             throws EtsyAPIException {
         return execute(new FindAllListingActiveMethod()
                 .withLimit(limit)
@@ -374,6 +374,33 @@ public class EtsyDataService implements EtsyAPI
                 .withAccessCredentials(accessCreds));
     }
 
+    @Override
+    public EtsyResponse<List<EtsyReceipt>> findAllShopReceipts(Credentials clientCreds, Credentials accessCreds,
+                                                               String shopIdOrName, ReceiptAssociations... associations)
+            throws EtsyAPIException {
+        return execute(new FindAllShopReceiptsMethod()
+                .withShopIdOrName(shopIdOrName)
+                .withClientCredentials(clientCreds)
+                .withAccessCredentials(accessCreds));
+    }
+
+    public EtsyResponse<List<EtsyReceipt>> findAllShopReceiptsNext(Credentials clientCreds, Credentials accessCreds,
+                                                                   EtsyResponse<List<EtsyReceipt>> pager)
+            throws EtsyAPIException {
+        return execute(requireNonNull(pager).buildNextPage(new FindAllShopReceiptsMethod()
+                .withClientCredentials(clientCreds).withAccessCredentials(accessCreds)));
+    }
+
+    @Override
+    public EtsyResponse<List<EtsyReceipt>> submitTracking(Credentials clientCreds, Credentials accessCreds, Long shopId,
+                                                          Long receiptId, String trackingCode, String carrierName,
+                                                          Boolean sendBcc) throws EtsyAPIException {
+        return execute(new SubmitTrackingMethod()
+                .withShopId(shopId).withReceiptId(receiptId)
+                .withTrackingCode(trackingCode).withCarrierName(carrierName).withSendBcc(sendBcc)
+                .withClientCredentials(clientCreds).withAccessCredentials(accessCreds));
+    }
+
     private <T> T execute(Method<T> method) throws EtsyAPIException {
         HttpRequest request = configureRequest(method);
         try {
@@ -405,7 +432,7 @@ public class EtsyDataService implements EtsyAPI
         }
     }
 
-    private HttpRequest configureRequest(Method method)
+    private HttpRequest configureRequest(Method<?> method)
             throws EtsyAPIException {
         Credentials clientCreds = requireNonNull(method.getClientCredentials());
         Credentials accessCreds = (method.requiresOAuth()

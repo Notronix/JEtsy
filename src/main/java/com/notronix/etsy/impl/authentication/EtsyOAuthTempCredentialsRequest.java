@@ -12,10 +12,10 @@ public class EtsyOAuthTempCredentialsRequest extends EtsyOAuthTokenRequest
 
     @Override
     public OAuthParameters createParameters() {
-        OAuthParameters result = super.createParameters();
-        result.callback = callback;
+        OAuthParameters oAuthParameters = super.createParameters();
+        oAuthParameters.callback = callback;
 
-        return result;
+        return oAuthParameters;
     }
 
     public String getCallback() {

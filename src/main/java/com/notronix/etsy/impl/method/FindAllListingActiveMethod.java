@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.impl.model.EtsyListing;
 
+import java.util.List;
+
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 
-public class FindAllListingActiveMethod extends AbstractEtsyMethod<EtsyResponse<EtsyListing>>
+public class FindAllListingActiveMethod extends AbstractEtsyMethod<EtsyResponse<List<EtsyListing>>>
 {
     private Integer limit;
     private Integer offset;
@@ -21,8 +23,8 @@ public class FindAllListingActiveMethod extends AbstractEtsyMethod<EtsyResponse<
     }
 
     @Override
-    public EtsyResponse<EtsyListing> getResponse(Gson gson, String jsonPayload) {
-        return gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<EtsyListing>>(){}.getType());
+    public EtsyResponse<List<EtsyListing>> getResponse(Gson gson, String jsonPayload) {
+        return gson.fromJson(jsonPayload, new TypeToken<EtsyResponse<List<EtsyListing>>>(){}.getType());
     }
 
     public Integer getLimit() {

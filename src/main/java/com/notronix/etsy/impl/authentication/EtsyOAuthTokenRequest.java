@@ -18,7 +18,7 @@ public abstract class EtsyOAuthTokenRequest extends GenericUrl
 
     public EtsyOAuthCredentials execute() throws IOException {
         HttpRequestFactory requestFactory = transport.createRequestFactory();
-        HttpRequest request = requestFactory.buildRequest(HttpMethods.GET, this, null);
+        HttpRequest request = requestFactory.buildGetRequest(this);
         createParameters().intercept(request);
         HttpResponse response = request.execute();
         response.setContentLoggingLimit(0);
@@ -35,11 +35,11 @@ public abstract class EtsyOAuthTokenRequest extends GenericUrl
     }
 
     public OAuthParameters createParameters() {
-        OAuthParameters result = new OAuthParameters();
-        result.consumerKey = consumerKey;
-        result.signer = signer;
+        OAuthParameters oAuthParameters = new OAuthParameters();
+        oAuthParameters.consumerKey = consumerKey;
+        oAuthParameters.signer = signer;
 
-        return result;
+        return oAuthParameters;
     }
 
     public HttpTransport getTransport() {
