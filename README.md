@@ -36,7 +36,7 @@ of your application with an existing Etsy account.  The following steps illustra
 3. Create your client credentials using JEtsy in your Java application 
 
 
-    Credentials clientCreds = Credentials.forKeyPair("YourKeyString", "YourSharedSecret");
+    `Credentials clientCreds = Credentials.forKeyPair("YourKeyString", "YourSharedSecret");`
 
 4. Create an instance of `EtsyDataService` to obtain temporary credentials.  These credentials will provide you with a 
    login URL that can be used in any browser to grant your application (client) access to an existing Etsy account.
@@ -45,11 +45,11 @@ of your application with an existing Etsy account.  The following steps illustra
    URL and specify your verifier token.*
 
 
-    EtsyDataService etsyDataService = new EtsyDataService();
+    ```EtsyDataService etsyDataService = new EtsyDataService();
     String callback = "oob";
     Set<String> scopes = Arrays.stream(EtsyScope.values()).map(Enum::name).collect(toSet());
     Credentials temporaryCreds = etsyDataService.getTemporaryCredentials(clientCreds, callback, scopes);
-    String loginUrl = temporaryCreds.getLoginUrl();
+    String loginUrl = temporaryCreds.getLoginUrl();```
 
 5. Visit Etsy via the login URL obtained in step 4 above.  Etsy will require you to login to an existing Etsy account. 
 After successful login, Etsy will ask you to grant your application (client) access to your account.  If you specified 
@@ -62,16 +62,16 @@ redirect to your URL and provide the verifier code as a query parameter.
    [here](https://www.etsy.com/developers/documentation/reference/apimethod)
 
 
-    String verifier = "VerificationCodeProvidedByEtsy"; // replace this with your verification code
-    Credentials accessCreds = etsyDataService.getAccessCredentials(clientCreds, temporaryCreds, verifier);
+    ```String verifier = "VerificationCodeProvidedByEtsy"; // replace this with your verification code
+    Credentials accessCreds = etsyDataService.getAccessCredentials(clientCreds, temporaryCreds, verifier);```
 
 7. Use the `EtsyDataService` and your credentials to make API calls to Etsy.  The example below shows an API call to get
 the Etsy user associated with the account that was verified in step 5.
 
 
-    List<String> userIdsOrNames = Collections.singletonList(EtsyAPI.__SELF__);
+    ```List<String> userIdsOrNames = Collections.singletonList(EtsyAPI.__SELF__);
     List<EtsyUser> users = etsyDataService.getUser(clientCreds, accessCreds, userIdsOrNames, UserAssociations.values());
-    EtsyUser authorizedEtsyAccountUser = users.get(0);
+    EtsyUser authorizedEtsyAccountUser = users.get(0);```
 
 
 ### Contribution
