@@ -63,7 +63,8 @@ public interface EtsyAPI
                                                                                      Credentials accessCreds,
                                                                                      String userId,
                                                                                      Integer limit,
-                                                                                     Integer offset)
+                                                                                     Integer offset,
+                                                                                     Integer page)
             throws EtsyAPIException;
 
     List<? extends Taxonomy> getSellerTaxonomy(Credentials clientCreds)

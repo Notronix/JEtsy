@@ -21,10 +21,13 @@ import com.notronix.etsy.impl.model.*;
 import java.io.File;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.StringUtils.join;
 import static org.apache.http.HttpStatus.*;
 
@@ -189,12 +192,14 @@ public class EtsyDataService implements EtsyAPI
                                                                                 Credentials accessCreds,
                                                                                 String userId,
                                                                                 Integer limit,
-                                                                                Integer offset)
+                                                                                Integer offset,
+                                                                                Integer page)
             throws EtsyAPIException {
         return execute(new FindAllUserShippingProfilesMethod()
                 .withUserId(userId)
                 .withLimit(limit)
                 .withOffset(offset)
+                .withPage(page)
                 .withClientCredentials(clientCreds)
                 .withAccessCredentials(accessCreds));
     }
@@ -443,7 +448,7 @@ public class EtsyDataService implements EtsyAPI
         HttpContent content = method.getContent(getUpdatingGSON());
 
         String baseUrl = method.getURL();
-        baseUrl = addIfProvided(baseUrl, "api_key", accessCreds == null ? clientCreds.getToken() : null);
+        baseUrl = addIfProvided(baseUrl, "api_key", nonNull(accessCreds) ? null : clientCreds.getToken());
         GenericUrl url = new GenericUrl(baseUrl);
 
         try {
@@ -453,7 +458,7 @@ public class EtsyDataService implements EtsyAPI
             throw new EtsyAPIException("An error occurred trying to build request.", ex);
         }
 
-        if (accessCreds != null) {
+        if (nonNull(accessCreds)) {
             OAuthHmacSigner signer = new OAuthHmacSigner();
             signer.clientSharedSecret = clientCreds.getTokenSecret();
             signer.tokenSharedSecret = accessCreds.getTokenSecret();
@@ -463,12 +468,17 @@ public class EtsyDataService implements EtsyAPI
             parameters.signer = signer;
             parameters.token = accessCreds.getToken();
 
+            Map<String, Object> urlEncodedParams = null;
+
             if (content instanceof UrlEncodedContent) {
-                url.putAll(Data.mapOf(((UrlEncodedContent) content).getData()));
+                urlEncodedParams = Data.mapOf(((UrlEncodedContent) content).getData());
+                url.putAll(urlEncodedParams);
             }
 
             try {
                 parameters.intercept(request);
+                ofNullable(urlEncodedParams)
+                        .ifPresent(contentParams -> contentParams.forEach((key, value) -> url.remove(key)));
             }
             catch (Exception e) {
                 EtsyAPIException eae = new EtsyAPIException("An error occurred computing method signature", e);
@@ -494,7 +504,7 @@ public class EtsyDataService implements EtsyAPI
                 return requestFactory;
             }
 
-            requestFactory = new NetHttpTransport().createRequestFactory();
+            requestFactory = new NetHttpTransport.Builder().build().createRequestFactory();
         }
 
         return requestFactory;

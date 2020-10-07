@@ -6,15 +6,23 @@ import com.notronix.etsy.impl.model.EtsyShippingTemplate;
 
 import java.util.List;
 
+import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
+
 public class FindAllUserShippingProfilesMethod extends AbstractEtsyMethod<EtsyResponse<List<EtsyShippingTemplate>>>
 {
     private String userId;
     private Integer limit;
     private Integer offset;
+    private Integer page;
 
     @Override
     public String getURI() {
-        return "/users/" + userId + "/shipping/templates";
+        String uri = "/users/" + userId + "/shipping/templates";
+        addIfProvided(uri, "limit", limit);
+        addIfProvided(uri, "offset", offset);
+        addIfProvided(uri, "page", page);
+
+        return uri;
     }
 
     @Override
@@ -63,6 +71,19 @@ public class FindAllUserShippingProfilesMethod extends AbstractEtsyMethod<EtsyRe
 
     public FindAllUserShippingProfilesMethod withOffset(Integer offset) {
         this.offset = offset;
+        return this;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public FindAllUserShippingProfilesMethod withPage(Integer page) {
+        this.page = page;
         return this;
     }
 }
