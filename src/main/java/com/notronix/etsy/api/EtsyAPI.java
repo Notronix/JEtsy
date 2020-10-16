@@ -14,7 +14,7 @@ public interface EtsyAPI
 
     /**
      * Gets the temporary OAuth credentials from Etsy.
-     * <br/><br/>
+     * <br><br>
      * The returned <code>Credentials</code> contains a
      * {@link Credentials#getLoginUrl() login URL} that can be used to connect to an existing Etsy account and in turn
      * receive a <i>verifier</i> code.  The verifier code and these temporary credentials are then used when calling
@@ -35,7 +35,7 @@ public interface EtsyAPI
 
     /**
      * Gets the access OAuth credentials from Etsy.
-     * <br/><br/>
+     * <br><br>
      * The returned <code>Credentials</code> are used for any Etsy API call that requires OAuth authentication.
      *
      * @param tempCredentials the credentials obtains using {@link EtsyAPI#getTemporaryCredentials}
