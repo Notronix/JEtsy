@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.join;
 
@@ -24,10 +25,19 @@ public abstract class AbstractEtsyMethod<Result> implements Method<Result>
         return thereAreOneOrMore(includes) ? join(includes, ",") : "";
     };
 
-    private Credentials clientCredentials;
-    private Credentials accessCredentials;
+    private final Credentials clientCredentials;
+    private final Credentials accessCredentials;
 
     abstract String getURI();
+
+    public AbstractEtsyMethod(Credentials clientCredentials) {
+        this(clientCredentials, null);
+    }
+
+    public AbstractEtsyMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        this.clientCredentials = requireNonNull(clientCredentials);
+        this.accessCredentials = requiresOAuth() ? requireNonNull(accessCredentials) : accessCredentials;
+    }
 
     @Override
     public final String getURL() {
@@ -54,26 +64,8 @@ public abstract class AbstractEtsyMethod<Result> implements Method<Result>
         return clientCredentials;
     }
 
-    public AbstractEtsyMethod<Result> withClientCredentials(Credentials clientCredentials) {
-        this.clientCredentials = clientCredentials;
-        return this;
-    }
-
-    public void setClientCredentials(Credentials clientCredentials) {
-        this.clientCredentials = clientCredentials;
-    }
-
     @Override
     public Credentials getAccessCredentials() {
         return accessCredentials;
-    }
-
-    public void setAccessCredentials(Credentials accessCredentials) {
-        this.accessCredentials = accessCredentials;
-    }
-
-    public AbstractEtsyMethod<Result> withAccessCredentials(Credentials accessCredentials) {
-        this.accessCredentials = accessCredentials;
-        return this;
     }
 }

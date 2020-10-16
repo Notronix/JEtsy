@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.DimensionUnit;
 import com.notronix.etsy.api.model.ListingState;
 import com.notronix.etsy.api.model.WeightUnit;
@@ -50,6 +51,10 @@ public class UpdateListingMethod extends AbstractEtsyMethod<EtsyListing>
     private Integer processingMin;
     private Integer processingMax;
     private String featuredRank;
+
+    public UpdateListingMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public boolean requiresOAuth() {

@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyDataType;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
 public class DescribeWhenMadeEnumMethod extends AbstractEtsyMethod<EtsyDataType>
 {
     private Boolean includeFormatted;
+
+    public DescribeWhenMadeEnumMethod(Credentials clientCredentials) {
+        super(clientCredentials);
+    }
 
     @Override
     public String getURI() {

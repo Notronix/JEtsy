@@ -12,12 +12,12 @@ out of the gate.  There's nothing to change, unless you need a specific feature 
 implementations (ex. a different Http transport).
 
 ### Installation
-Version 1.0.0010 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+Version 1.0.0011 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
 
     <dependency>
         <groupId>com.notronix</groupId>
         <artifactId>JEtsy</artifactId>
-        <version>1.0.0010</version>
+        <version>1.0.0011</version>
     </dependency>
 
 ### Usage
@@ -33,28 +33,31 @@ of your application with an existing Etsy account.  The following steps illustra
 2. Record the "key string" and "shared secret" provided by completing step 1 above.
 
 
-3. Create your client credentials using JEtsy in your Java application 
+3. Create an instance of `EtsyDataService` using the information from step 2 above. 
 
 
-    `Credentials clientCreds = Credentials.forKeyPair("YourKeyString", "YourSharedSecret");`
+    `EtsyDataService etsyDataService = new EtsyDataService("YourKeyString", "YourSharedSecret");`
 
-4. Create an instance of `EtsyDataService` to obtain temporary credentials.  These credentials will provide you with a 
-   login URL that can be used in any browser to grant your application (client) access to an existing Etsy account.
-   <br/><br/>*Note that the example below uses an out of band (oob) oauth process.  As a result, Etsy will display the 
-   verifier required in the next step.  If you provide a callback URL of your own, Etsy will redirect to your provided 
-   URL and specify your verifier token.*
+4. Use the `etsyDataService` to make API calls that do not require OAuth authentication.
+
+
+    `List<EtsyApiMethod> methods = etsyDataService.getMethodTable();`
+
+4. To make API calls that require OAuth authentication, obtain your temporary OAuth credentials.  These credentials will 
+   provide you with a login URL that can be used in any browser to grant your application (client) access to an existing 
+   Etsy account. <br/><br/>*Note that the example below uses an out of band (oob) oauth process.  As a result, Etsy will 
+   display the verifier required in the next step.  If you provide a callback URL of your own, Etsy will redirect to your 
+   provided URL and specify your verifier token.*
 
 
     ```
-    EtsyDataService etsyDataService = new EtsyDataService();
-    String callback = "oob";
     Set<String> scopes = Arrays.stream(EtsyScope.values()).map(Enum::name).collect(toSet());
-    Credentials temporaryCreds = etsyDataService.getTemporaryCredentials(clientCreds, callback, scopes);
+    Credentials temporaryCreds = etsyDataService.getTemporaryCredentials(scopes, "oob");
     String loginUrl = temporaryCreds.getLoginUrl();
 
 
 5. Visit Etsy via the login URL obtained in step 4 above.  Etsy will require you to login to an existing Etsy account. 
-After successful login, Etsy will ask you to grant your application (client) access to your account.  If you specified 
+After a successful login, Etsy will ask you to grant your application (client) access to your account.  If you specified 
 an OOB callback then record the verifier code presented to you.  If you specified your own callback URL, then Etsy will 
 redirect to your URL and provide the verifier code as a query parameter.
    
@@ -66,7 +69,7 @@ redirect to your URL and provide the verifier code as a query parameter.
 
     ```
     String verifier = "VerificationCodeProvidedByEtsy"; // replace this with your verification code
-    Credentials accessCreds = etsyDataService.getAccessCredentials(clientCreds, temporaryCreds, verifier);
+    Credentials accessCreds = etsyDataService.getAccessCredentials(temporaryCreds, verifier);
 
 
 7. Use the `EtsyDataService` and your credentials to make API calls to Etsy.  The example below shows an API call to get
@@ -75,7 +78,7 @@ the Etsy user associated with the account that was verified in step 5.
 
     ```
     List<String> userIdsOrNames = Collections.singletonList(EtsyAPI.__SELF__);
-    List<EtsyUser> users = etsyDataService.getUser(clientCreds, accessCreds, userIdsOrNames, UserAssociations.values());
+    List<EtsyUser> users = etsyDataService.getUser(accessCreds, userIdsOrNames, UserAssociations.values());
     EtsyUser authorizedEtsyAccountUser = users.get(0);
 
 

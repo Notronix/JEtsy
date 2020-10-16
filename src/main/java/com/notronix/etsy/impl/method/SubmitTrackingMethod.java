@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyReceipt;
 
 import java.util.HashMap;
@@ -21,6 +22,10 @@ public class SubmitTrackingMethod extends AbstractEtsyMethod<EtsyResponse<List<E
     private String trackingCode;
     private String carrierName;
     private Boolean sendBcc;
+
+    public SubmitTrackingMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

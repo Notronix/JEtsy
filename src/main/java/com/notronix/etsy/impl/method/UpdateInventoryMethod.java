@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.ListingInventory;
 import com.notronix.etsy.api.model.ListingProduct;
 import com.notronix.etsy.impl.model.EtsyListingInventory;
@@ -21,6 +22,10 @@ public class UpdateInventoryMethod extends AbstractEtsyMethod<EtsyListingInvento
 {
     private Long listingId;
     private ListingInventory inventory;
+
+    public UpdateInventoryMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

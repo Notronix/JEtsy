@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyTaxonomyNodeProperty;
 
 import java.util.List;
@@ -9,6 +10,10 @@ import java.util.List;
 public class GetTaxonomyNodePropertiesMethod extends AbstractEtsyMethod<List<EtsyTaxonomyNodeProperty>>
 {
     private Long taxonomyId;
+
+    public GetTaxonomyNodePropertiesMethod(Credentials clientCredentials) {
+        super(clientCredentials);
+    }
 
     @Override
     String getURI() {

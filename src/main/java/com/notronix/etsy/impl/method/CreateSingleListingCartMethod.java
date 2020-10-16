@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.CartAssociations;
 import com.notronix.etsy.impl.model.EtsyCart;
 
@@ -21,6 +22,10 @@ public class CreateSingleListingCartMethod extends AbstractEtsyMethod<EtsyCart>
     private Long listingId;
     private Integer quantity;
     private CartAssociations[] associations;
+
+    public CreateSingleListingCartMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public String getRequestMethod() {

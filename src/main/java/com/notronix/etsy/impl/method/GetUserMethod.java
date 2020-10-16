@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.UserAssociations;
 import com.notronix.etsy.impl.model.EtsyUser;
 
@@ -17,6 +18,10 @@ public class GetUserMethod extends AbstractEtsyMethod<List<EtsyUser>>
 {
     private List<String> userIdsOrNames;
     private UserAssociations[] associations;
+
+    public GetUserMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public boolean requiresOAuth() {

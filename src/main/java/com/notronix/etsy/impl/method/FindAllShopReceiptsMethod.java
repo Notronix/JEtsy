@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.method.Pagination;
 import com.notronix.etsy.api.model.ReceiptAssociations;
 import com.notronix.etsy.impl.model.EtsyReceipt;
@@ -18,6 +19,10 @@ public class FindAllShopReceiptsMethod extends AbstractEtsyMethod<EtsyResponse<L
     private Integer limit;
     private Integer offset;
     private ReceiptAssociations[] associations;
+
+    public FindAllShopReceiptsMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyListingInventory;
 
 import static com.notronix.etsy.impl.method.MethodUtils.addIfProvided;
@@ -11,6 +12,10 @@ public class GetInventoryMethod extends AbstractEtsyMethod<EtsyListingInventory>
 {
     private Long listingId;
     private Boolean writeMissingInventory;
+
+    public GetInventoryMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public String getURI() {

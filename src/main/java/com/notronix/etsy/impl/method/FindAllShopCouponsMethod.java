@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyCoupon;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import static java.util.Objects.requireNonNull;
 public class FindAllShopCouponsMethod extends AbstractEtsyMethod<List<EtsyCoupon>>
 {
     private String shopIdOrName;
+
+    public FindAllShopCouponsMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

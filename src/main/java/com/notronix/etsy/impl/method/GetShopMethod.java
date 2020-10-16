@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.ShopAssociations;
 import com.notronix.etsy.impl.model.EtsyShop;
 
@@ -16,6 +17,10 @@ public class GetShopMethod extends AbstractEtsyMethod<List<EtsyShop>>
 {
     private List<String> shopIdsOrNames;
     private ShopAssociations[] associations;
+
+    public GetShopMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

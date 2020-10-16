@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyShippingTemplate;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public class FindAllUserShippingProfilesMethod extends AbstractEtsyMethod<EtsyRe
     private Integer limit;
     private Integer offset;
     private Integer page;
+
+    public FindAllUserShippingProfilesMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public String getURI() {

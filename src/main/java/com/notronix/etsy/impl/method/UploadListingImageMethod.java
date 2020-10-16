@@ -3,6 +3,7 @@ package com.notronix.etsy.impl.method;
 import com.google.api.client.http.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyListingImage;
 
 import java.io.File;
@@ -21,6 +22,10 @@ public class UploadListingImageMethod extends AbstractEtsyMethod<EtsyListingImag
     private Integer rank;
     private Boolean overwrite;
     private Boolean isWaterMarked;
+
+    public UploadListingImageMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public String getURI() {

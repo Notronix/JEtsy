@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyCart;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public class GetUserCartMethod extends AbstractEtsyMethod<EtsyCart>
 {
     private String userId;
     private Long cartId;
+
+    public GetUserCartMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

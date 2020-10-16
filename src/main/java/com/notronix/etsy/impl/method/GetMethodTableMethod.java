@@ -2,12 +2,17 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyApiMethod;
 
 import java.util.List;
 
 public class GetMethodTableMethod extends AbstractEtsyMethod<List<EtsyApiMethod>>
 {
+    public GetMethodTableMethod(Credentials clientCredentials) {
+        super(clientCredentials);
+    }
+
     @Override
     String getURI() {
         return "/";

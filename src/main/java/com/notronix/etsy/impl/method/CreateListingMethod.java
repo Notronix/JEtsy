@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.ListingState;
 import com.notronix.etsy.impl.model.EtsyListing;
 
@@ -41,6 +42,10 @@ public class CreateListingMethod extends AbstractEtsyMethod<EtsyListing>
     private String recipient;
     private String occasion;
     private List<String> style;
+
+    public CreateListingMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public boolean requiresOAuth() {

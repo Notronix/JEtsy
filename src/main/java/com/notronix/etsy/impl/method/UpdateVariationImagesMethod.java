@@ -5,6 +5,7 @@ import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.api.model.ListingVariationImage;
 import com.notronix.etsy.impl.model.EtsyListingVariationImage;
 
@@ -17,6 +18,10 @@ public class UpdateVariationImagesMethod extends AbstractEtsyMethod<List<EtsyLis
 {
     private Long listingId;
     private List<? extends ListingVariationImage> variationImages;
+
+    public UpdateVariationImagesMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     String getURI() {

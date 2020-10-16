@@ -2,6 +2,7 @@ package com.notronix.etsy.impl.method;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.authentication.Credentials;
 import com.notronix.etsy.impl.model.EtsyListing;
 
 import java.util.List;
@@ -12,6 +13,10 @@ public class FindAllListingActiveMethod extends AbstractEtsyMethod<EtsyResponse<
 {
     private Integer limit;
     private Integer offset;
+
+    public FindAllListingActiveMethod(Credentials clientCredentials, Credentials accessCredentials) {
+        super(clientCredentials, accessCredentials);
+    }
 
     @Override
     public String getURI() {
