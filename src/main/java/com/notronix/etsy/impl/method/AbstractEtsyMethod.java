@@ -36,7 +36,7 @@ public abstract class AbstractEtsyMethod<Result> implements Method<Result>
 
     public AbstractEtsyMethod(Credentials clientCredentials, Credentials accessCredentials) {
         this.clientCredentials = requireNonNull(clientCredentials);
-        this.accessCredentials = requiresOAuth() ? requireNonNull(accessCredentials) : accessCredentials;
+        this.accessCredentials = accessCredentials;
     }
 
     @Override
