@@ -67,7 +67,7 @@ public class EtsyTransaction implements Transaction
     private String transactionType;
     private String url;
 
-    private List<EtsyListingInventory> variations;
+    private List<EtsyListingVariation> variations;
 
     @SerializedName(value = "product_data")
     private EtsyListingProduct ListingProduct;
@@ -289,11 +289,11 @@ public class EtsyTransaction implements Transaction
     }
 
     @Override
-    public List<EtsyListingInventory> getVariations() {
+    public List<EtsyListingVariation> getVariations() {
         return variations;
     }
 
-    public void setVariations(List<EtsyListingInventory> variations) {
+    public void setVariations(List<EtsyListingVariation> variations) {
         this.variations = variations;
     }
 

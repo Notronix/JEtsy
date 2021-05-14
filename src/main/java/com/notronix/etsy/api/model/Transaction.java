@@ -1,5 +1,7 @@
 package com.notronix.etsy.api.model;
 
+import com.notronix.etsy.impl.model.EtsyListingVariation;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -29,6 +31,6 @@ public interface Transaction
     Long getBuyerFeedbackId();
     String getTransactionType();
     String getUrl();
-    List<? extends ListingInventory> getVariations();
+    List<? extends EtsyListingVariation> getVariations();
     ListingProduct getListingProduct();
 }
