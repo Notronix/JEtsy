@@ -289,11 +289,11 @@ public class EtsyTransaction implements Transaction
     }
 
     @Override
-    public List<EtsyListingInventory> getVariations() {
+    public List<EtsyListingVariation> getVariations() {
         return variations;
     }
 
-    public void setVariations(List<EtsyListingInventory> variations) {
+    public void setVariations(List<EtsyListingVariation> variations) {
         this.variations = variations;
     }
 
