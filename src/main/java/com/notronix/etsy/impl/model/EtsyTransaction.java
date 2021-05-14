@@ -67,7 +67,7 @@ public class EtsyTransaction implements Transaction
     private String transactionType;
     private String url;
 
-    private List<EtsyListingInventory> variations;
+    private List<EtsyListingVariation> variations;
 
     @SerializedName(value = "product_data")
     private EtsyListingProduct ListingProduct;
