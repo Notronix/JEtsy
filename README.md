@@ -12,15 +12,15 @@ out of the gate.  There's nothing to change, unless you need a specific feature 
 implementations (ex. a different Http transport).
 
 ### Installation
-Version 1.0.0012 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+Version 3.0.0001 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
 
     <dependency>
         <groupId>com.notronix</groupId>
         <artifactId>JEtsy</artifactId>
-        <version>1.0.0012</version>
+        <version>3.0.0001</version>
     </dependency>
 
-### Usage
+### Usage (TODO: update to V3 implementation with OAuth2.0)
 JEtsy is intended to be used as a way to allow any Java developer to quickly get their own application (known as the 
 "Client") off the ground and running.  As a result, the first step required is to register your own application with 
 Etsy.  This registration process will provide you with both a "key string" and a "shared secret" (known as the "Client 
