@@ -25,7 +25,7 @@ public class EtsyMoneyAdapter extends TypeAdapter<EtsyMoney>
         Integer divisor = value.getDivisor();
 
         double price = amount.doubleValue() / divisor.doubleValue();
-        out.value("" + price);
+        out.value(String.valueOf(price));
     }
 
     @Override

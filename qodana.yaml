@@ -3,3 +3,13 @@ linter: jetbrains/qodana-jvm-community:2023.1
 include:
   - name: UnnecessaryLocalVariable
   - name: TrivialStringConcatenation
+  - name: DeclareCollectionAsInterface
+  - name: MagicNumber
+  - name: InstanceofThis
+  - name: ClassNameSameAsAncestorName
+  - name: ClassComplexity
+  - name: ClassCoupling
+  - name: FinalPrivateMethod
+  - name: ConstantDeclaredInAbstractClass
+  - name: NonFinalUtilityClass
+  - name: ImplicitCallToSuper
