@@ -40,24 +40,7 @@ public class FindAllShopReceiptsMethod extends EtsyMethod<EtsyPageableResponse<E
 
     @Override
     public EtsyPageableResponse<EtsyReceipt> getResponse(Unmarshaller unmarshaller, String payload) {
-        EtsyPageableResponse<EtsyReceipt> response = unmarshaller.unmarshal(payload, RECEIPTS);
-//        Pagination pagination = response.getPagination();
-//
-//        if (pagination != null && pagination.hasNext()) {
-//            response.setNextBuilder(method -> {
-//                if (!(method instanceof FindAllShopReceiptsMethod)) {
-//                    throw new IllegalArgumentException("invalid method");
-//                }
-//
-//                ((FindAllShopReceiptsMethod) method)
-//                        .withShopIdOrName(shopIdOrName)
-//                        .withAssociations(associations)
-//                        .withLimit(limit)
-//                        .withOffset(pagination.getNextOffset());
-//            });
-//        }
-
-        return response;
+        return unmarshaller.unmarshal(payload, RECEIPTS);
     }
 
     public String getShopIdOrName() {
