@@ -29,22 +29,7 @@ public class FindAllListingActiveMethod extends EtsyMethod<EtsyPageableResponse<
 
     @Override
     public EtsyPageableResponse<EtsyListing> getResponse(Unmarshaller unmarshaller, String payload) {
-        EtsyPageableResponse<EtsyListing> response = unmarshaller.unmarshal(payload, LISTINGS);
-//        Pagination pagination = response.getPagination();
-//
-//        if (pagination != null && pagination.hasNext()) {
-//            response.setNextBuilder(method -> {
-//                if (!(method instanceof FindAllListingActiveMethod)) {
-//                    throw new IllegalArgumentException("invalid method");
-//                }
-//
-//                ((FindAllListingActiveMethod) method)
-//                        .withLimit(limit)
-//                        .withOffset(pagination.getNextOffset());
-//            });
-//        }
-
-        return response;
+        return unmarshaller.unmarshal(payload, LISTINGS);
     }
 
     public Integer getLimit() {

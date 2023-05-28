@@ -40,24 +40,7 @@ public class GetAllUserCartsMethod extends EtsyMethod<EtsyPageableResponse<EtsyC
 
     @Override
     public EtsyPageableResponse<EtsyCart> getResponse(Unmarshaller unmarshaller, String payload) {
-        EtsyPageableResponse<EtsyCart> response = unmarshaller.unmarshal(payload, CARTS);
-//        Pagination pagination = response.getPagination();
-//
-//        if (pagination != null && pagination.hasNext()) {
-//            response.setNextBuilder(method -> {
-//                if (!(method instanceof GetAllUserCartsMethod)) {
-//                    throw new IllegalArgumentException("invalid method");
-//                }
-//
-//                ((GetAllUserCartsMethod) method)
-//                        .withUserId(userId)
-//                        .withAssociations(associations)
-//                        .withLimit(limit)
-//                        .withOffset(pagination.getNextOffset());
-//            });
-//        }
-
-        return response;
+        return unmarshaller.unmarshal(payload, CARTS);
     }
 
     public String getUserId() {

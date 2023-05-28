@@ -41,21 +41,7 @@ public class FindAllUserShopsMethod extends EtsyMethod<EtsyPageableResponse<Etsy
 
     @Override
     public EtsyPageableResponse<EtsyShop> getResponse(Unmarshaller unmarshaller, String payload) {
-        EtsyPageableResponse<EtsyShop> response = unmarshaller.unmarshal(payload, SHOPS);
-//        Pagination pagination = response.getPagination();
-//
-//        if (pagination != null && pagination.hasNext()) {
-//            response.setNextBuilder(method -> {
-//                if (!(method instanceof FindAllUserShopsMethod)) {
-//                    throw new IllegalArgumentException("invalid method");
-//                }
-//
-//                ((FindAllUserShopsMethod) method).withUserId(userId).withLimit(limit).withAssociations(associations)
-//                        .withOffset(pagination.getNextOffset());
-//            });
-//        }
-
-        return response;
+        return unmarshaller.unmarshal(payload, SHOPS);
     }
 
     public String getUserId() {

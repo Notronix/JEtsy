@@ -34,24 +34,7 @@ public class FindAllShopListingsActiveMethod extends EtsyMethod<EtsyPageableResp
 
     @Override
     public EtsyPageableResponse<EtsyListing> getResponse(Unmarshaller unmarshaller, String payload) {
-        EtsyPageableResponse<EtsyListing> response = unmarshaller.unmarshal(payload, LISTINGS);
-//        Pagination pagination = response.getPagination();
-//
-//        if (pagination != null && pagination.hasNext()) {
-//            response.setNextBuilder(method -> {
-//                if (!(method instanceof FindAllShopListingsActiveMethod)) {
-//                    throw new IllegalArgumentException("invalid method");
-//                }
-//
-//                ((FindAllShopListingsActiveMethod) method)
-//                        .withShopIdOrName(shopIdOrName)
-//                        .withAssociations(associations)
-//                        .withLimit(limit)
-//                        .withOffset(pagination.getNextOffset());
-//            });
-//        }
-//
-        return response;
+        return unmarshaller.unmarshal(payload, LISTINGS);
     }
 
     public String getShopIdOrName() {
