@@ -4,6 +4,7 @@ import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.*;
+import com.notronix.etsy.api.authentication.model.Credentials;
 
 import java.util.HashMap;
 import java.util.Map;

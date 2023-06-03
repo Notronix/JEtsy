@@ -3,17 +3,26 @@ package com.notronix.etsy.impl;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static com.notronix.albacore.ContainerUtils.thereAreNo;
+import static com.notronix.albacore.ContainerUtils.thereAreOneOrMore;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
 import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.join;
 
 @SuppressWarnings("WeakerAccess")
 public abstract class EtsyMethodUtils
 {
+    protected static final Function<List<Enum<?>>, String> INCLUDES_CONVERTER = list -> {
+        Set<String> includes = list.stream().map(Enum::name).collect(toSet());
+        return thereAreOneOrMore(includes) ? join(includes, ",") : "";
+    };
+
     @SafeVarargs
     public static <T> List<T> safeList(T... list) {
         return list == null ? null : (list.length > 0 ? asList(list) : null);
@@ -43,6 +52,22 @@ public abstract class EtsyMethodUtils
 
     public static String addIfProvided(String uri, String key, Object value) {
         return (value == null) ? uri : add(uri, key, value, null);
+    }
+
+    public static <T> String addIfProvided(String uri, String key, T value, Predicate<T> validator,
+                                           boolean throwWhenInvalid) throws IllegalArgumentException {
+        if (validator == null) {
+            return addIfProvided(uri, key, value);
+        }
+
+        if (validator.test(value)) {
+            return addIfProvided(uri, key, value);
+        }
+        else if (throwWhenInvalid) {
+            throw new IllegalArgumentException(key);
+        }
+
+        return uri;
     }
 
     public static <T> void putIfProvided(Map<String, Object> parameters, String key, T value,
@@ -79,5 +104,9 @@ public abstract class EtsyMethodUtils
         }
 
         parameters.put(key, value);
+    }
+
+    public static String addIncludes(String uri, Enum<?>[] includes) {
+        return addIfProvided(uri, "includes", safeList(includes), INCLUDES_CONVERTER);
     }
 }

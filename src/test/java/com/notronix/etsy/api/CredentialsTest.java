@@ -1,5 +1,6 @@
 package com.notronix.etsy.api;
 
+import com.notronix.etsy.api.authentication.model.Credentials;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -1,5 +1,7 @@
 package com.notronix.etsy.api;
 
+import com.notronix.etsy.api.authentication.model.Credentials;
+
 public interface Method<Response, Content>
 {
     String getURL();

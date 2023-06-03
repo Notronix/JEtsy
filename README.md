@@ -12,7 +12,7 @@ out of the gate.  There's nothing to change, unless you need a specific feature 
 implementations (ex. a different Http transport).
 
 ### Installation
-Version 3.0.0002 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+Version 3.0.0003 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
 
     <dependency>
         <groupId>com.notronix</groupId>
@@ -56,7 +56,7 @@ of your application with an existing Etsy account.  The following steps illustra
     String loginUrl = temporaryCreds.getLoginUrl();
 
 
-5. Visit Etsy via the login URL obtained in step 4 above.  Etsy will require you to login to an existing Etsy account. 
+5. Visit Etsy via the login URL obtained in step 4 above.  Etsy will require you to log in to an existing Etsy account. 
 After a successful login, Etsy will ask you to grant your application (client) access to your account.  If you specified 
 an OOB callback then record the verifier code presented to you.  If you specified your own callback URL, then Etsy will 
 redirect to your URL and provide the verifier code as a query parameter.

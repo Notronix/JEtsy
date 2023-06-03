@@ -3,9 +3,9 @@ package com.notronix.etsy.impl;
 import com.google.api.client.http.EmptyContent;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpMethods;
-import com.notronix.etsy.api.Credentials;
 import com.notronix.etsy.api.Marshaller;
 import com.notronix.etsy.api.Method;
+import com.notronix.etsy.api.authentication.model.Credentials;
 
 import static java.util.Objects.requireNonNull;
 
