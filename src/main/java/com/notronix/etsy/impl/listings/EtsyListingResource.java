@@ -42,7 +42,7 @@ public class EtsyListingResource extends EtsyResource implements ListingResource
     }
 
     @Override
-    public Listing createDraftListing(Credentials accessCredentials, Long shopId, Integer quantity, String title, String description,
+    public EtsyListing createDraftListing(Credentials accessCredentials, Long shopId, Integer quantity, String title, String description,
                                       Float price, WhoMade whoMade, WhenMade whenMade, Long taxonomyId, Long shippingProfileId,
                                       Long returnPolicyId, List<String> materials, Long shopSectionId, Integer processingMin,
                                       Integer processingMax, List<String> tags, List<String> styles, Float weight, Float length,
