@@ -97,7 +97,7 @@ public interface Listing
 
     Boolean isPrivate();
 
-    List<String> getStyle();
+    List<String> getStyles();
 
     String getFileData();
 

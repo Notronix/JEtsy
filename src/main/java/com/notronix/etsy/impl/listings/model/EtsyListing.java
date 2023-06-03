@@ -121,7 +121,8 @@ public class EtsyListing implements Listing
     @SerializedName("is_private")
     private Boolean isPrivate;
 
-    private List<String> style;
+    @SerializedName("style")
+    private List<String> styles;
     @SerializedName("file_data")
     private String fileData;
     @SerializedName("has_variations")
@@ -558,12 +559,12 @@ public class EtsyListing implements Listing
     }
 
     @Override
-    public List<String> getStyle() {
-        return style;
+    public List<String> getStyles() {
+        return styles;
     }
 
-    public void setStyle(List<String> style) {
-        this.style = style;
+    public void setStyles(List<String> styles) {
+        this.styles = styles;
     }
 
     @Override

@@ -7,4 +7,6 @@ public interface Price
     Integer getDivisor();
 
     String getCurrencyCode();
+
+    Float asFloat();
 }

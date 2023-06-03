@@ -36,4 +36,16 @@ public class EtsyPrice implements Price
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
     }
+
+    @Override
+    public Float asFloat() {
+        if (amount == null || divisor == null) {
+            return null;
+        }
+
+        double price = (double) amount / (double) divisor;
+        double roundedPrice = (double) Math.round(price * 100.0) / 100.0;
+
+        return (float) roundedPrice;
+    }
 }
