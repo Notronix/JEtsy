@@ -7,6 +7,7 @@ import com.notronix.etsy.api.common.model.DimensionUnit;
 import com.notronix.etsy.api.common.model.WeightUnit;
 import com.notronix.etsy.api.listings.model.*;
 
+import java.io.File;
 import java.util.List;
 
 public interface ListingResource
@@ -34,4 +35,10 @@ public interface ListingResource
 
     ListingInventory getListingInventory(Credentials accessCredentials, Long listingId, Boolean showDeleted, InventoryIncludes... includes)
             throws EtsyException;
+
+    ListingImage uploadListingImage(Credentials accessCredentials, Long shopId, Long listingId, File imageFile, Integer rank,
+                                    Boolean overwrite, Boolean watermarked, String altText)
+            throws EtsyException;
+
+    ListingImage getListingImage(Long listingId, Long imageId) throws EtsyException;
 }

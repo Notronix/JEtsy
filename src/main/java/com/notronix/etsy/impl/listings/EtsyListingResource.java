@@ -11,8 +11,10 @@ import com.notronix.etsy.impl.EtsyMethodExecutor;
 import com.notronix.etsy.impl.EtsyResource;
 import com.notronix.etsy.impl.listings.method.*;
 import com.notronix.etsy.impl.listings.model.EtsyListing;
+import com.notronix.etsy.impl.listings.model.EtsyListingImage;
 import com.notronix.etsy.impl.listings.model.EtsyListingInventory;
 
+import java.io.File;
 import java.util.List;
 
 public class EtsyListingResource extends EtsyResource implements ListingResource
@@ -62,14 +64,31 @@ public class EtsyListingResource extends EtsyResource implements ListingResource
     }
 
     @Override
-    public EtsyListingInventory updateListingInventory(Credentials accessCredentials, Long listingId, ListingInventory inventory) throws EtsyException {
+    public EtsyListingInventory updateListingInventory(Credentials accessCredentials, Long listingId, ListingInventory inventory)
+            throws EtsyException {
         return getExecutor().execute(new UpdateListingInventoryMethod(getClientCredentials(), accessCredentials)
                 .withListingId(listingId).withInventory(inventory));
     }
 
     @Override
-    public EtsyListingInventory getListingInventory(Credentials accessCredentials, Long listingId, Boolean showDeleted, InventoryIncludes... includes) throws EtsyException {
+    public EtsyListingInventory getListingInventory(Credentials accessCredentials, Long listingId, Boolean showDeleted,
+                                                    InventoryIncludes... includes) throws EtsyException {
         return getExecutor().execute(new GetListingInventoryMethod(getClientCredentials(), accessCredentials)
                 .withListingId(listingId).withShowDeleted(showDeleted).withIncludes(includes));
+    }
+
+    @Override
+    public EtsyListingImage uploadListingImage(Credentials accessCredentials, Long shopId, Long listingId, File imageFile,
+                                               Integer rank, Boolean overwrite, Boolean watermarked, String altText)
+            throws EtsyException {
+        return getExecutor().execute(new UploadListingImageMethod(getClientCredentials(), accessCredentials)
+                .withShopId(shopId).withListingId(listingId).withImageFile(imageFile).withOverwrite(overwrite)
+                .withWatermarked(watermarked).withAltText(altText));
+    }
+
+    @Override
+    public EtsyListingImage getListingImage(Long listingId, Long imageId) throws EtsyException {
+        return getExecutor().execute(new GetListingImageMethod(getClientCredentials())
+                .withListingId(listingId).withImageId(imageId));
     }
 }

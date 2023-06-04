@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 
 import static com.notronix.albacore.ContainerUtils.thereAreNo;
 import static com.notronix.etsy.impl.EtsyMethodUtils.putIfProvided;
+import static java.util.Objects.nonNull;
 import static java.util.Objects.requireNonNull;
 
 public class CreateDraftListingMethod extends EtsyMethod<EtsyListing>
@@ -87,13 +88,13 @@ public class CreateDraftListingMethod extends EtsyMethod<EtsyListing>
     @Override
     public HttpContent getContent(Marshaller marshaller) {
         Map<String, Object> params = new HashMap<>();
-        params.put("quantity", requireNonNull(quantity));
+        putIfProvided(params, "quantity", quantity, qty -> (nonNull(qty) && qty > 0), true);
         params.put("title", requireNonNull(title));
         params.put("description", requireNonNull(description));
-        params.put("price", requireNonNull(price));
-        params.put("who_made", requireNonNull(whoMade));
+        putIfProvided(params, "price", price, p -> (nonNull(p) && p > 0.00), true);
+        params.put("who_made", requireNonNull(whoMade).toString());
         params.put("when_made", requireNonNull(whenMade).apiValue());
-        params.put("taxonomy_id", requireNonNull(taxonomyId));
+        putIfProvided(params, "taxonomy_id", taxonomyId, id -> (nonNull(id) && id > 0), true);
 
         putIfProvided(params, "shipping_profile_id", shippingProfileId);
         putIfProvided(params, "return_policy_id", returnPolicyId);
@@ -107,8 +108,8 @@ public class CreateDraftListingMethod extends EtsyMethod<EtsyListing>
         putIfProvided(params, "item_length", length);
         putIfProvided(params, "item_width", width);
         putIfProvided(params, "item_height", height);
-        putIfProvided(params, "item_weight_unit", weightUnit);
-        putIfProvided(params, "item_dimensions_unit", dimensionUnit);
+        putIfProvided(params, "item_weight_unit", weightUnit.toString());
+        putIfProvided(params, "item_dimensions_unit", dimensionUnit.toString());
         putIfProvided(params, "is_personalizable", personalizable);
         putIfProvided(params, "personalization_is_required", personalizationRequired);
         putIfProvided(params, "personalization_char_count_max", maxPersonalizationCharacterCount);
@@ -121,7 +122,7 @@ public class CreateDraftListingMethod extends EtsyMethod<EtsyListing>
         putIfProvided(params, "is_customizable", customizable);
         putIfProvided(params, "should_auto_renew", shouldAutoRenew);
         putIfProvided(params, "is_taxable", taxable);
-        putIfProvided(params, "type", type);
+        putIfProvided(params, "type", type.toString());
 
         return new UrlEncodedContent(params);
     }
