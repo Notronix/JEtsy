@@ -13,6 +13,7 @@ import com.notronix.etsy.impl.listings.method.*;
 import com.notronix.etsy.impl.listings.model.EtsyListing;
 import com.notronix.etsy.impl.listings.model.EtsyListingImage;
 import com.notronix.etsy.impl.listings.model.EtsyListingInventory;
+import com.notronix.etsy.impl.listings.model.EtsyListingVariationImage;
 
 import java.io.File;
 import java.util.List;
@@ -90,5 +91,21 @@ public class EtsyListingResource extends EtsyResource implements ListingResource
     public EtsyListingImage getListingImage(Long listingId, Long imageId) throws EtsyException {
         return getExecutor().execute(new GetListingImageMethod(getClientCredentials())
                 .withListingId(listingId).withImageId(imageId));
+    }
+
+    @Override
+    public PageableResponse<EtsyListingVariationImage> getListingVariationImages(Long shopId, Long listingId)
+            throws EtsyException {
+        return getExecutor().execute(new GetListingVariationImagesMethod(getClientCredentials())
+                .withShopId(shopId).withListingId(listingId));
+    }
+
+    @Override
+    public PageableResponse<EtsyListingVariationImage> updateVariationImages(Credentials accessCredentials, Long shopId,
+                                                                             Long listingId,
+                                                                             List<? extends ListingVariationImage> variationImages)
+            throws EtsyException {
+        return getExecutor().execute(new UpdateVariationImagesMethod(getClientCredentials(), accessCredentials)
+                .withShopId(shopId).withListingId(listingId).withVariationImages(variationImages));
     }
 }

@@ -41,4 +41,11 @@ public interface ListingResource
             throws EtsyException;
 
     ListingImage getListingImage(Long listingId, Long imageId) throws EtsyException;
+
+    PageableResponse<? extends ListingVariationImage> getListingVariationImages(Long shopId, Long listingId)
+            throws EtsyException;
+
+    PageableResponse<? extends ListingVariationImage> updateVariationImages(Credentials accessCredentials, Long shopId,
+                                                                            Long listingId, List<? extends ListingVariationImage> variationImages)
+            throws EtsyException;
 }

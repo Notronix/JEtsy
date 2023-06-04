@@ -24,7 +24,7 @@ public class UpdateListingInventoryMethod extends EtsyMethod<EtsyListingInventor
 
     @Override
     public EtsyListingInventory getResponse(Unmarshaller unmarshaller, String payload) {
-        return null;
+        return unmarshaller.unmarshal(payload, EtsyListingInventory.class);
     }
 
     @Override
