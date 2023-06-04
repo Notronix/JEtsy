@@ -9,8 +9,8 @@ import com.notronix.etsy.api.listings.model.ListingState;
 import com.notronix.etsy.impl.EtsyPageableResponse;
 import com.notronix.etsy.impl.PageableEtsyMethod;
 import com.notronix.etsy.impl.listings.model.EtsyListing;
-import com.notronix.etsy.impl.listings.model.ListingSort;
-import com.notronix.etsy.impl.listings.model.SortOrder;
+import com.notronix.etsy.api.listings.model.ListingSort;
+import com.notronix.etsy.api.listings.model.SortOrder;
 
 import static com.notronix.etsy.impl.EtsyMethodUtils.*;
 import static java.util.Objects.requireNonNull;

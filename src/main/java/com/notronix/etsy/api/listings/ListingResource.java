@@ -6,8 +6,6 @@ import com.notronix.etsy.api.authentication.model.Credentials;
 import com.notronix.etsy.api.common.model.DimensionUnit;
 import com.notronix.etsy.api.common.model.WeightUnit;
 import com.notronix.etsy.api.listings.model.*;
-import com.notronix.etsy.impl.listings.model.ListingSort;
-import com.notronix.etsy.impl.listings.model.SortOrder;
 
 import java.util.List;
 
@@ -29,5 +27,11 @@ public interface ListingResource
                                Boolean personalizable, Boolean personalizationRequired, Integer maxPersonalizationCharacterCount,
                                String personalizationInstructions, List<Long> productionPartnerIds, List<Long> imageIds,
                                Boolean supply, Boolean customizable, Boolean shouldAutoRenew, Boolean taxable, ListingType type)
-        throws EtsyException;
+            throws EtsyException;
+
+    ListingInventory updateListingInventory(Credentials accessCredentials, Long listingId, ListingInventory inventory)
+            throws EtsyException;
+
+    ListingInventory getListingInventory(Credentials accessCredentials, Long listingId, Boolean showDeleted, InventoryIncludes... includes)
+            throws EtsyException;
 }

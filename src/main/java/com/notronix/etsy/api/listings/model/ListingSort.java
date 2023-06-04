@@ -1,4 +1,4 @@
-package com.notronix.etsy.impl.listings.model;
+package com.notronix.etsy.api.listings.model;
 
 public enum ListingSort
 {
