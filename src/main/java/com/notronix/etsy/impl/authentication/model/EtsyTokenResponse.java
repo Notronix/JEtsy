@@ -1,28 +1,32 @@
 package com.notronix.etsy.impl.authentication.model;
 
 import com.google.gson.annotations.SerializedName;
+import com.notronix.etsy.api.authentication.model.AccessToken;
+import com.notronix.etsy.api.authentication.model.RefreshToken;
 import com.notronix.etsy.api.authentication.model.TokenResponse;
 
 public class EtsyTokenResponse implements TokenResponse
 {
-    @SerializedName("access_token")
-    private String accessToken;
+    private String access_token;
     @SerializedName("token_type")
     private String tokenType;
 
     @SerializedName("expires_in")
     private Long expiresIn;
 
-    @SerializedName("refresh_token")
-    private String refreshToken;
+    private String refresh_token;
 
     @Override
-    public String getAccessToken() {
-        return accessToken;
+    public AccessToken getAccessToken() {
+        return AccessToken.forToken(access_token);
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
     @Override
@@ -44,11 +48,15 @@ public class EtsyTokenResponse implements TokenResponse
     }
 
     @Override
-    public String getRefreshToken() {
-        return refreshToken;
+    public RefreshToken getRefreshToken() {
+        return RefreshToken.forToken(refresh_token);
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
     }
 }

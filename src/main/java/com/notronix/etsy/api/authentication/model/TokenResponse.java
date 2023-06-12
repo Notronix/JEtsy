@@ -2,8 +2,8 @@ package com.notronix.etsy.api.authentication.model;
 
 public interface TokenResponse
 {
-    String getAccessToken();
+    AccessToken getAccessToken();
     String getTokenType();
     Long getExpiresIn();
-    String getRefreshToken();
+    RefreshToken getRefreshToken();
 }

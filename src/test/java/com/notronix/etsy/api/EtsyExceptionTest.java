@@ -13,10 +13,11 @@ public class EtsyExceptionTest
         EtsyException ex = new EtsyException("test");
         assertFalse(ex.isDueToExpiredToken());
 
-        ex.dueToExpiredToken(false);
+        ex.withError("test");
+        ex.withErrorDescription("test");
         assertFalse(ex.isDueToExpiredToken());
 
-        ex.dueToExpiredToken(true);
+        ex.withErrorDescription("access token is expired");
         assertTrue(ex.isDueToExpiredToken());
     }
 }

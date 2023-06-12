@@ -1,201 +1,219 @@
 package com.notronix.etsy.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.notronix.etsy.api.API;
-import com.notronix.etsy.api.Marshaller;
-import com.notronix.etsy.api.Unmarshaller;
-import com.notronix.etsy.api.authentication.model.Credentials;
-import com.notronix.etsy.impl.authentication.EtsyAuthResource;
-import com.notronix.etsy.impl.common.json.InstantAdapter;
-import com.notronix.etsy.impl.listings.EtsyListingResource;
-import com.notronix.etsy.impl.shops.EtsyShopResource;
-import com.notronix.etsy.impl.taxonomy.EtsyTaxonomyResource;
-import com.notronix.etsy.impl.users.EtsyUserResource;
+import com.google.api.client.http.*;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.gson.reflect.TypeToken;
+import com.notronix.etsy.api.*;
+import com.notronix.etsy.api.authentication.method.AuthResource;
+import com.notronix.etsy.api.common.method.Method;
+import com.notronix.etsy.api.common.method.OAuthMethod;
+import com.notronix.etsy.api.listings.method.ListingResource;
+import com.notronix.etsy.api.shops.method.ShopResource;
+import com.notronix.etsy.api.taxonomy.method.TaxonomyResource;
+import com.notronix.etsy.api.users.method.UserResource;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
 
 import static java.util.Objects.requireNonNull;
+import static org.apache.http.HttpStatus.*;
 
-public class EtsyAPI implements API
+public class EtsyAPI implements API<HttpContent>
 {
     private final Object lock = new Object();
-    private final Credentials clientCredentials;
-    private EtsyMethodExecutor executor;
-    private EtsyAuthResource authResource;
-    private EtsyListingResource listingResource;
-    private EtsyShopResource shopResource;
-    private EtsyTaxonomyResource taxonomyResource;
-    private EtsyUserResource userResource;
+    private HttpRequestFactory requestFactory;
+    private Marshaller marshaller;
+    private Unmarshaller unmarshaller;
+    private AuthResource<HttpContent> authResource;
+    private UserResource<HttpContent> userResource;
+    private ListingResource<HttpContent> listingResource;
+    private ShopResource<HttpContent> shopResource;
+    private TaxonomyResource<HttpContent> taxonomyResource;
 
-    public EtsyAPI(String consumerKey, String consumerSecret) throws NullPointerException {
-        clientCredentials = Credentials.forKeyPair(requireNonNull(consumerKey), requireNonNull(consumerSecret));
-    }
-
-    private EtsyMethodExecutor getExecutor() {
-        if (executor != null) {
-            return executor;
-        }
-
-        synchronized (lock) {
-            if (executor != null) {
-                return executor;
-            }
-
-            executor = new EtsyMethodExecutor(getMarshaller(), getUnMarshaller());
-        }
-
-        return executor;
-    }
-
-    public void setExecutor(EtsyMethodExecutor executor) {
-        this.executor = executor;
+    public Marshaller getMarshaller() {
+        return marshaller;
     }
 
     @Override
-    public EtsyAuthResource getAuthResource() {
-        if (authResource != null) {
-            return authResource;
-        }
+    public void setMarshaller(Marshaller marshaller) {
+        this.marshaller = marshaller;
+    }
 
-        EtsyMethodExecutor executor = getExecutor();
+    public Unmarshaller getUnmarshaller() {
+        return unmarshaller;
+    }
 
-        synchronized (lock) {
-            if (authResource != null) {
-                return authResource;
-            }
+    @Override
+    public void setUnmarshaller(Unmarshaller unmarshaller) {
+        this.unmarshaller = unmarshaller;
+    }
 
-            authResource = new EtsyAuthResource(executor, clientCredentials);
-        }
-
+    @Override
+    public AuthResource<HttpContent> getAuthResource() {
         return authResource;
     }
 
-    public void setAuthResource(EtsyAuthResource authResource) {
+    public void setAuthResource(AuthResource<HttpContent> authResource) {
         this.authResource = authResource;
     }
 
     @Override
-    public EtsyListingResource getListingResource() {
-        if (listingResource != null) {
-            return listingResource;
-        }
+    public UserResource<HttpContent> getUserResource() {
+        return userResource;
+    }
 
-        EtsyMethodExecutor executor = getExecutor();
+    public void setUserResource(UserResource<HttpContent> userResource) {
+        this.userResource = userResource;
+    }
 
-        synchronized (lock) {
-            if (listingResource != null) {
-                return listingResource;
-            }
-
-            listingResource = new EtsyListingResource(executor, clientCredentials);
-        }
-
+    @Override
+    public ListingResource<HttpContent> getListingResource() {
         return listingResource;
     }
 
-    public void setListingResource(EtsyListingResource listingResource) {
+    public void setListingResource(ListingResource<HttpContent> listingResource) {
         this.listingResource = listingResource;
     }
 
     @Override
-    public EtsyShopResource getShopResource() {
-        if (shopResource != null) {
-            return shopResource;
-        }
-
-        EtsyMethodExecutor executor = getExecutor();
-
-        synchronized (lock) {
-            if (shopResource != null) {
-                return shopResource;
-            }
-
-            shopResource = new EtsyShopResource(executor, clientCredentials);
-        }
-
+    public ShopResource<HttpContent> getShopResource() {
         return shopResource;
     }
 
-    public void setShopResource(EtsyShopResource shopResource) {
+    public void setShopResource(ShopResource<HttpContent> shopResource) {
         this.shopResource = shopResource;
     }
 
     @Override
-    public EtsyTaxonomyResource getTaxonomyResource() {
-        if (taxonomyResource != null) {
-            return taxonomyResource;
-        }
-
-        EtsyMethodExecutor executor = getExecutor();
-
-        synchronized (lock) {
-            if (taxonomyResource != null) {
-                return taxonomyResource;
-            }
-
-            taxonomyResource = new EtsyTaxonomyResource(executor, clientCredentials);
-        }
-
+    public TaxonomyResource<HttpContent> getTaxonomyResource() {
         return taxonomyResource;
     }
 
-    public void setTaxonomyResource(EtsyTaxonomyResource taxonomyResource) {
+    public void setTaxonomyResource(TaxonomyResource<HttpContent> taxonomyResource) {
         this.taxonomyResource = taxonomyResource;
     }
 
-    @Override
-    public EtsyUserResource getUserResource() {
-        if (userResource != null) {
-            return userResource;
-        }
+    protected static boolean requestFailed(int statusCode) {
+        return statusCode != SC_OK && statusCode != SC_CREATED && statusCode != SC_ACCEPTED && statusCode != SC_NO_CONTENT;
+    }
 
-        EtsyMethodExecutor executor = getExecutor();
+    public HttpRequestFactory getRequestFactory() {
+        if (requestFactory != null) {
+            return requestFactory;
+        }
 
         synchronized (lock) {
-            if (userResource != null) {
-                return userResource;
+            if (requestFactory != null) {
+                return requestFactory;
             }
 
-            userResource = new EtsyUserResource(executor, clientCredentials);
+            requestFactory = new NetHttpTransport.Builder().build().createRequestFactory();
         }
 
-        return userResource;
+        return requestFactory;
     }
 
-    public void setUserResource(EtsyUserResource userResource) {
-        this.userResource = userResource;
+    @Override
+    public <T> Response<T> execute(AppKey appKey, Method<T, HttpContent> method) throws EtsyException {
+        try {
+            GenericUrl url = new GenericUrl(method.getURL());
+            HttpContent requestContent = method.buildRequestContent(getMarshaller());
+
+            HttpRequest request = getRequestFactory().buildRequest(method.getRequestMethod(), url, requestContent);
+            request.getHeaders().set("x-api-key", requireNonNull(appKey.getValue()));
+
+            if (method instanceof OAuthMethod) {
+                String accessToken = requireNonNull(((OAuthMethod) method).getAccessToken().getValue());
+                request.getHeaders().setAuthorization(Collections.singletonList("Bearer " + accessToken));
+            }
+
+            int statusCode;
+            String reason;
+            String payload;
+
+            final HttpResponse response = request.execute();
+
+            try {
+                response.setContentLoggingLimit(0);
+                statusCode = response.getStatusCode();
+                reason = response.getStatusMessage();
+                payload = response.parseAsString();
+            }
+            finally {
+                response.disconnect();
+            }
+
+            if (requestFailed(statusCode)) {
+                throw new EtsyException("Etsy API call failed" + ". Code: " + statusCode + ", Reason: " + reason
+                        + ", Details: " + payload);
+            }
+
+            T responseContent = method.buildResponseBody(getUnmarshaller(), payload);
+            HttpHeaders headers = response.getHeaders();
+
+            return new Response<T>()
+            {
+                @Override
+                public String getRequestUUID() {
+                    return getHeaderValue(headers,
+                            httpHeaders -> httpHeaders.getFirstHeaderStringValue(REQUEST_UUID) == null ? null
+                                    : httpHeaders.getFirstHeaderStringValue(REQUEST_UUID));
+                }
+
+                @Override
+                public Integer getLimitPerSecond() {
+                    return getHeaderValue(headers,
+                            httpHeaders -> httpHeaders.getFirstHeaderStringValue(LIMIT_PER_SECOND) == null ? null
+                                    : Integer.parseInt(httpHeaders.getFirstHeaderStringValue(LIMIT_PER_SECOND)));
+                }
+
+                @Override
+                public Integer getLimitPerDay() {
+                    return getHeaderValue(headers,
+                            httpHeaders -> httpHeaders.getFirstHeaderStringValue(LIMIT_PER_DAY) == null ? null
+                                    : Integer.parseInt(httpHeaders.getFirstHeaderStringValue(LIMIT_PER_DAY)));
+                }
+
+                @Override
+                public Integer getCallsRemainingThisDay() {
+                    return getHeaderValue(headers,
+                            httpHeaders -> httpHeaders.getFirstHeaderStringValue(REMAINING_THIS_DAY) == null ? null
+                                    : Integer.parseInt(httpHeaders.getFirstHeaderStringValue(REMAINING_THIS_DAY)));
+                }
+
+                @Override
+                public Integer getCallsRemainingThisSecond() {
+                    return getHeaderValue(headers,
+                            httpHeaders -> httpHeaders.getFirstHeaderStringValue(REMAINING_THIS_SECOND) == null ? null
+                                    : Integer.parseInt(httpHeaders.getFirstHeaderStringValue(REMAINING_THIS_SECOND)));
+                }
+
+                @Override
+                public T getContent() {
+                    return responseContent;
+                }
+            };
+        }
+        catch (Exception ex) {
+            String error = null;
+            String description = null;
+
+            if (ex instanceof HttpResponseException) {
+                Map<String, String> content =
+                        getUnmarshaller().unmarshal(((HttpResponseException) ex).getContent(),
+                                new TypeToken<HashMap<String, String>>(){}.getType());
+                error = content.get("error");
+                description = content.get("error_description");
+            }
+
+            throw new EtsyException("Etsy request failed.", ex)
+                    .withError(error).withErrorDescription(description);
+        }
     }
 
-    private Marshaller getMarshaller() {
-        return new Marshaller()
-        {
-            private final Gson gson = new GsonBuilder().setVersion(0).create();
-
-            @Override
-            public String marshal(Object object) {
-                return gson.toJson(object);
-            }
-        };
-    }
-
-    private Unmarshaller getUnMarshaller() {
-        return new Unmarshaller()
-        {
-            private final Gson gson = new GsonBuilder()
-                    .registerTypeAdapter(Instant.class, new InstantAdapter().nullSafe())
-                    .create();
-
-            @Override
-            public <T> T unmarshal(String payload, Class<T> classOfT) {
-                return gson.fromJson(payload, classOfT);
-            }
-
-            @Override
-            public <T> T unmarshal(String payload, Type typeOfT) {
-                return gson.fromJson(payload, typeOfT);
-            }
-        };
+    private <T> T getHeaderValue(HttpHeaders headers, Function<HttpHeaders, T> function) {
+        return headers == null ? null : function.apply(headers);
     }
 }

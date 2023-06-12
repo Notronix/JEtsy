@@ -1,20 +1,27 @@
 package com.notronix.etsy.api;
 
-import com.notronix.etsy.api.authentication.AuthResource;
-import com.notronix.etsy.api.listings.ListingResource;
-import com.notronix.etsy.api.shops.ShopResource;
-import com.notronix.etsy.api.taxonomy.TaxonomyResource;
-import com.notronix.etsy.api.users.UserResource;
+import com.notronix.etsy.api.authentication.method.AuthResource;
+import com.notronix.etsy.api.common.method.Method;
+import com.notronix.etsy.api.listings.method.ListingResource;
+import com.notronix.etsy.api.shops.method.ShopResource;
+import com.notronix.etsy.api.taxonomy.method.TaxonomyResource;
+import com.notronix.etsy.api.users.method.UserResource;
 
-public interface API
+public interface API<C>
 {
-    AuthResource getAuthResource();
+    void setMarshaller(Marshaller marshaller);
 
-    ListingResource getListingResource();
+    void setUnmarshaller(Unmarshaller unmarshaller);
 
-    ShopResource getShopResource();
+    AuthResource<C> getAuthResource();
 
-    TaxonomyResource getTaxonomyResource();
+    UserResource<C> getUserResource();
 
-    UserResource getUserResource();
+    ListingResource<C> getListingResource();
+
+    ShopResource<C> getShopResource();
+
+    TaxonomyResource<C> getTaxonomyResource();
+
+    <T> Response<T> execute(AppKey appKey, Method<T, C> method) throws EtsyException;
 }
