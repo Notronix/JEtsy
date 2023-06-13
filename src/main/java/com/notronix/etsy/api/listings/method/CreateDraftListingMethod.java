@@ -115,8 +115,4 @@ public interface CreateDraftListingMethod<C> extends Method<Listing, C>
 
     @EtsyParameter
     void setType(ListingType type);
-
-    Predicate<Integer> QUANTITY_VALIDATOR = quantity -> (nonNull(quantity) && quantity > 0);
-    Predicate<Float> PRICE_VALIDATOR = price -> (nonNull(price) && price > 0.00);
-    Predicate<Long> TAXONOMY_ID_VALIDATOR = taxonomyId -> (nonNull(taxonomyId) && taxonomyId > 0);
 }

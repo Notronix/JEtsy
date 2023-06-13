@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static com.notronix.albacore.ContainerUtils.thereAreNo;
 import static com.notronix.etsy.api.MethodUtils.putIfProvided;
+import static com.notronix.etsy.api.listings.method.ListingResource.*;
 import static java.util.Objects.requireNonNull;
 
 public class EtsyCreateDraftListingMethod extends AbstractEtsyMethod<Listing>
@@ -104,8 +105,8 @@ public class EtsyCreateDraftListingMethod extends AbstractEtsyMethod<Listing>
         putIfProvided(params, "item_length", length);
         putIfProvided(params, "item_width", width);
         putIfProvided(params, "item_height", height);
-        putIfProvided(params, "item_weight_unit", weightUnit.toString());
-        putIfProvided(params, "item_dimensions_unit", dimensionUnit.toString());
+        putIfProvided(params, "item_weight_unit", weightUnit == null ? null : weightUnit.name());
+        putIfProvided(params, "item_dimensions_unit", dimensionUnit == null ? null : dimensionUnit.name());
         putIfProvided(params, "is_personalizable", personalizable);
         putIfProvided(params, "personalization_is_required", personalizationRequired);
         putIfProvided(params, "personalization_char_count_max", maxPersonalizationCharacterCount);
@@ -118,7 +119,7 @@ public class EtsyCreateDraftListingMethod extends AbstractEtsyMethod<Listing>
         putIfProvided(params, "is_customizable", customizable);
         putIfProvided(params, "should_auto_renew", shouldAutoRenew);
         putIfProvided(params, "is_taxable", taxable);
-        putIfProvided(params, "type", type.toString());
+        putIfProvided(params, "type", type == null ? null : type.name());
 
         return new UrlEncodedContent(params);
     }

@@ -4,13 +4,13 @@ import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.*;
-import com.notronix.etsy.api.authentication.method.AuthResource;
 import com.notronix.etsy.api.common.method.Method;
 import com.notronix.etsy.api.common.method.OAuthMethod;
-import com.notronix.etsy.api.listings.method.ListingResource;
-import com.notronix.etsy.api.shops.method.ShopResource;
-import com.notronix.etsy.api.taxonomy.method.TaxonomyResource;
-import com.notronix.etsy.api.users.method.UserResource;
+import com.notronix.etsy.impl.authentication.method.EtsyAuthResource;
+import com.notronix.etsy.impl.listings.method.EtsyListingResource;
+import com.notronix.etsy.impl.shops.method.EtsyShopResource;
+import com.notronix.etsy.impl.taxonomy.method.EtsyTaxonomyResource;
+import com.notronix.etsy.impl.users.method.EtsyUserResource;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,11 +26,11 @@ public class EtsyAPI implements API<HttpContent>
     private HttpRequestFactory requestFactory;
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
-    private AuthResource<HttpContent> authResource;
-    private UserResource<HttpContent> userResource;
-    private ListingResource<HttpContent> listingResource;
-    private ShopResource<HttpContent> shopResource;
-    private TaxonomyResource<HttpContent> taxonomyResource;
+    private EtsyAuthResource authResource;
+    private EtsyUserResource userResource;
+    private EtsyListingResource listingResource;
+    private EtsyShopResource shopResource;
+    private EtsyTaxonomyResource taxonomyResource;
 
     public Marshaller getMarshaller() {
         return marshaller;
@@ -51,47 +51,47 @@ public class EtsyAPI implements API<HttpContent>
     }
 
     @Override
-    public AuthResource<HttpContent> getAuthResource() {
+    public EtsyAuthResource getAuthResource() {
         return authResource;
     }
 
-    public void setAuthResource(AuthResource<HttpContent> authResource) {
+    public void setAuthResource(EtsyAuthResource authResource) {
         this.authResource = authResource;
     }
 
     @Override
-    public UserResource<HttpContent> getUserResource() {
+    public EtsyUserResource getUserResource() {
         return userResource;
     }
 
-    public void setUserResource(UserResource<HttpContent> userResource) {
+    public void setUserResource(EtsyUserResource userResource) {
         this.userResource = userResource;
     }
 
     @Override
-    public ListingResource<HttpContent> getListingResource() {
+    public EtsyListingResource getListingResource() {
         return listingResource;
     }
 
-    public void setListingResource(ListingResource<HttpContent> listingResource) {
+    public void setListingResource(EtsyListingResource listingResource) {
         this.listingResource = listingResource;
     }
 
     @Override
-    public ShopResource<HttpContent> getShopResource() {
+    public EtsyShopResource getShopResource() {
         return shopResource;
     }
 
-    public void setShopResource(ShopResource<HttpContent> shopResource) {
+    public void setShopResource(EtsyShopResource shopResource) {
         this.shopResource = shopResource;
     }
 
     @Override
-    public TaxonomyResource<HttpContent> getTaxonomyResource() {
+    public EtsyTaxonomyResource getTaxonomyResource() {
         return taxonomyResource;
     }
 
-    public void setTaxonomyResource(TaxonomyResource<HttpContent> taxonomyResource) {
+    public void setTaxonomyResource(EtsyTaxonomyResource taxonomyResource) {
         this.taxonomyResource = taxonomyResource;
     }
 

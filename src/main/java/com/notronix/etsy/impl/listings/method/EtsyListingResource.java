@@ -7,47 +7,52 @@ import com.notronix.etsy.api.listings.method.*;
 public class EtsyListingResource implements ListingResource<HttpContent>
 {
     @Override
-    public CreateDraftListingMethod<HttpContent> createCreateDraftListingMethod(AccessToken accessToken) {
+    public EtsyCreateDraftListingMethod createCreateDraftListingMethod(AccessToken accessToken) {
         return new EtsyCreateDraftListingMethod().withAccessToken(accessToken);
     }
 
     @Override
-    public GetListingInventoryMethod<HttpContent> createGetListingInventoryMethod(AccessToken accessToken) {
+    public EtsyGetListingInventoryMethod createGetListingInventoryMethod(AccessToken accessToken) {
         return new EtsyGetListingInventoryMethod().withAccessToken(accessToken);
     }
 
     @Override
-    public GetListingsByShopMethod<HttpContent> createGetListingsByShopMethod(AccessToken accessToken) {
+    public EtsyGetListingsByShopMethod createGetListingsByShopMethod(AccessToken accessToken) {
         return new EtsyGetListingsByShopMethod().withAccessToken(accessToken);
     }
 
     @Override
-    public GetListingMethod<HttpContent> createGetListingMethod() {
+    public EtsyGetListingMethod createGetListingMethod() {
         return new EtsyGetListingMethod();
     }
 
     @Override
-    public UpdateListingInventoryMethod<HttpContent> createUpdateListingInventoryMethod(AccessToken accessToken) {
+    public EtsyUpdateListingInventoryMethod createUpdateListingInventoryMethod(AccessToken accessToken) {
         return new EtsyUpdateListingInventoryMethod().withAccessToken(accessToken);
     }
 
     @Override
-    public UploadListingImageMethod<HttpContent> createUploadListingImageMethod(AccessToken accessToken) {
+    public EtsyUploadListingImageMethod createUploadListingImageMethod(AccessToken accessToken) {
         return new EtsyUploadListingImageMethod().withAccessToken(accessToken);
     }
 
     @Override
-    public GetListingImageMethod<HttpContent> createGetListingImageMethod() {
+    public EtsyGetListingImageMethod createGetListingImageMethod() {
         return new EtsyGetListingImageMethod();
     }
 
     @Override
-    public GetListingVariationImagesMethod<HttpContent> createGetListingVariationImagesMethod() {
+    public EtsyGetListingVariationImagesMethod createGetListingVariationImagesMethod() {
         return new EtsyGetListingVariationImagesMethod();
     }
 
     @Override
-    public UpdateVariationImagesMethod<HttpContent> createUpdateVariationImagesMethod(AccessToken accessToken) {
+    public EtsyUpdateVariationImagesMethod createUpdateVariationImagesMethod(AccessToken accessToken) {
         return new EtsyUpdateVariationImagesMethod().withAccessToken(accessToken);
+    }
+
+    @Override
+    public UpdateListingMethod<HttpContent> createUpdateListingMethod(AccessToken accessToken) {
+        return new EtsyUpdateListingMethod().withAccessToken(accessToken);
     }
 }

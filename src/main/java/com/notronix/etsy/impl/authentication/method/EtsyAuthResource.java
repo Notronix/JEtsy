@@ -10,22 +10,22 @@ import com.notronix.etsy.api.authentication.model.RefreshToken;
 public class EtsyAuthResource implements AuthResource<HttpContent>
 {
     @Override
-    public PingMethod<HttpContent> createPingMethod() {
+    public EtsyPingMethod createPingMethod() {
         return new EtsyPingMethod();
     }
 
     @Override
-    public RefreshTokenMethod<HttpContent> createRefreshTokenMethod(AppKey appKey, RefreshToken refreshToken) {
+    public EtsyRefreshTokenMethod createRefreshTokenMethod(AppKey appKey, RefreshToken refreshToken) {
         return new EtsyRefreshTokenMethod().withAppKey(appKey).withRefreshToken(refreshToken);
     }
 
     @Override
-    public ExchangeTokenMethod<HttpContent> createExchangeTokenMethod(AppKey appKey, LegacyToken legacyToken) {
+    public EtsyExchangeTokenMethod createExchangeTokenMethod(AppKey appKey, LegacyToken legacyToken) {
         return new EtsyExchangeTokenMethod().withAppKey(appKey).withLegacyToken(legacyToken);
     }
 
     @Override
-    public TokenScopesMethod<HttpContent> createTokenScopesMethod(AccessToken accessToken) {
+    public EtsyTokenScopesMethod createTokenScopesMethod(AccessToken accessToken) {
         return new EtsyTokenScopesMethod().withToken(accessToken);
     }
 }
