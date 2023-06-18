@@ -52,7 +52,7 @@ public class EtsyListingResource implements ListingResource<HttpContent>
     }
 
     @Override
-    public UpdateListingMethod<HttpContent> createUpdateListingMethod(AccessToken accessToken) {
+    public EtsyUpdateListingMethod createUpdateListingMethod(AccessToken accessToken) {
         return new EtsyUpdateListingMethod().withAccessToken(accessToken);
     }
 }

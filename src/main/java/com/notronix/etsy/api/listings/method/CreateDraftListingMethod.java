@@ -11,9 +11,6 @@ import com.notronix.etsy.api.listings.model.WhenMade;
 import com.notronix.etsy.api.listings.model.WhoMade;
 
 import java.util.List;
-import java.util.function.Predicate;
-
-import static java.util.Objects.nonNull;
 
 public interface CreateDraftListingMethod<C> extends Method<Listing, C>
 {

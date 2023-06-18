@@ -42,7 +42,7 @@ public class EtsyExchangeTokenMethod extends AbstractEtsyMethod<TokenResponse> i
     public HttpContent buildRequestContent(Marshaller marshaller) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("grant_type", GrantType.token_exchange.name());
-        parameters.put("client_id", requireNonNull(getAppKey().getValue()));
+        parameters.put("client_id", requireNonNull(appKey.getValue()));
         parameters.put("legacy_token", requireNonNull(legacyToken.getValue()));
 
         return new UrlEncodedContent(parameters);
