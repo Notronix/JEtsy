@@ -2,16 +2,23 @@ package com.notronix.etsy.impl;
 
 import com.google.api.client.http.*;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.notronix.etsy.api.*;
 import com.notronix.etsy.api.common.method.Method;
 import com.notronix.etsy.api.common.method.OAuthMethod;
 import com.notronix.etsy.impl.authentication.method.EtsyAuthResource;
+import com.notronix.etsy.impl.common.json.InstantAdapter;
 import com.notronix.etsy.impl.listings.method.EtsyListingResource;
 import com.notronix.etsy.impl.shops.method.EtsyShopResource;
 import com.notronix.etsy.impl.taxonomy.method.EtsyTaxonomyResource;
 import com.notronix.etsy.impl.users.method.EtsyUserResource;
 
+import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +30,7 @@ import static org.apache.http.HttpStatus.*;
 public class EtsyAPI implements API<HttpContent>
 {
     private final Object lock = new Object();
+    private static final EtsyAPI DEFAULT_INSTANCE = createDefaultInstance();
     private HttpRequestFactory requestFactory;
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
@@ -215,5 +223,68 @@ public class EtsyAPI implements API<HttpContent>
 
     private <T> T getHeaderValue(HttpHeaders headers, Function<HttpHeaders, T> function) {
         return headers == null ? null : function.apply(headers);
+    }
+
+    public static EtsyAPI getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    private static EtsyAPI createDefaultInstance() {
+        Marshaller marshaller = createDefaultMarshaller();
+        Unmarshaller unmarshaller = createDefaultUnMarshaller();
+
+        EtsyAPI etsyAPI = new EtsyAPI();
+        etsyAPI.setMarshaller(marshaller);
+        etsyAPI.setUnmarshaller(unmarshaller);
+        etsyAPI.setAuthResource(new EtsyAuthResource());
+        etsyAPI.setListingResource(new EtsyListingResource());
+        etsyAPI.setShopResource(new EtsyShopResource());
+        etsyAPI.setUserResource(new EtsyUserResource());
+        etsyAPI.setTaxonomyResource(new EtsyTaxonomyResource());
+
+        return etsyAPI;
+    }
+
+    private static Marshaller createDefaultMarshaller() {
+        return new Marshaller()
+        {
+            private final Gson gson = new GsonBuilder().setVersion(0).create();
+
+            @Override
+            public String marshal(Object object) {
+                return gson.toJson(object);
+            }
+        };
+    }
+
+    private static Unmarshaller createDefaultUnMarshaller() {
+        return new Unmarshaller()
+        {
+            private final Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Instant.class, new InstantAdapter().nullSafe())
+                    .create();
+
+            @Override
+            public <T> T unmarshal(String payload, Class<T> classOfT) {
+                return gson.fromJson(payload, classOfT);
+            }
+
+            @Override
+            public <T> T unmarshal(String payload, Type typeOfT) {
+                return gson.fromJson(payload, typeOfT);
+            }
+        };
+    }
+
+    private static void getTime() {
+        try {
+            String time = "Sat, 10 Jun 2023 11:36:46 GMT";
+            Instant date = ZonedDateTime.parse(time, DateTimeFormatter.RFC_1123_DATE_TIME).toInstant();
+
+            System.exit(0);
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 }

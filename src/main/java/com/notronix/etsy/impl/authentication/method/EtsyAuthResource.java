@@ -3,7 +3,6 @@ package com.notronix.etsy.impl.authentication.method;
 import com.google.api.client.http.HttpContent;
 import com.notronix.etsy.api.AppKey;
 import com.notronix.etsy.api.authentication.method.AuthResource;
-import com.notronix.etsy.api.authentication.method.GetAccessTokenMethod;
 import com.notronix.etsy.api.authentication.model.AccessToken;
 import com.notronix.etsy.api.authentication.model.LegacyToken;
 import com.notronix.etsy.api.authentication.model.OAuthConnector;
@@ -28,7 +27,7 @@ public class EtsyAuthResource implements AuthResource<HttpContent>
     }
 
     @Override
-    public GetAccessTokenMethod<HttpContent> createGetAccessTokenMethod(AppKey appKey) {
+    public EtsyGetAccessTokenMethod createGetAccessTokenMethod(AppKey appKey) {
         return new EtsyGetAccessTokenMethod().withAppKey(appKey);
     }
 
