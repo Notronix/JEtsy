@@ -12,12 +12,12 @@ out of the gate.  There's nothing to change, unless you need a specific feature 
 implementations (ex. a different Http transport).
 
 ### Installation
-Version 3.0.0013 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
+Version 3.0.0014 of JEtsy is available from the Maven Central Repository [here](https://search.maven.org/search?q=g:com.notronix%20a:JEtsy)
 
     <dependency>
         <groupId>com.notronix</groupId>
         <artifactId>JEtsy</artifactId>
-        <version>3.0.0013</version>
+        <version>3.0.0014</version>
     </dependency>
 
 ### Usage (TODO: update to V3 implementation with OAuth2.0)

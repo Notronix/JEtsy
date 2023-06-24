@@ -9,6 +9,8 @@ import java.io.File;
 
 public interface UploadListingImageMethod<C> extends Method<ListingImage, C>
 {
+    Integer MAX_ALT_TEXT_LENGTH = 250;
+
     @EtsyParameter(nullable = false, position = ParameterPosition.PATH)
     void setShopId(Long shopId);
 

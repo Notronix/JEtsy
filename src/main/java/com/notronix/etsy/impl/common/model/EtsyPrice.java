@@ -5,6 +5,8 @@ import com.notronix.etsy.api.common.model.Price;
 
 public class EtsyPrice implements Price
 {
+    private static final double PRICE_ROUNDER = 100.0;
+
     private Integer amount;
     private Integer divisor;
     @SerializedName("currency_code")
@@ -44,7 +46,7 @@ public class EtsyPrice implements Price
         }
 
         double price = (double) amount / (double) divisor;
-        double roundedPrice = (double) Math.round(price * 100.0) / 100.0;
+        double roundedPrice = (double) Math.round(price * PRICE_ROUNDER) / PRICE_ROUNDER;
 
         return (float) roundedPrice;
     }

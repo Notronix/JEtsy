@@ -48,7 +48,7 @@ public class EtsyUploadListingImageMethod extends AbstractEtsyMethod<ListingImag
     @Override
     public HttpContent buildRequestContent(Marshaller marshaller) {
         requireNonNull(imageFile);
-        if (nonNull(altText) && altText.length() > 250) {
+        if (nonNull(altText) && altText.length() > MAX_ALT_TEXT_LENGTH) {
             throw new IllegalArgumentException("alt_text is more than 250 characters.");
         }
 
